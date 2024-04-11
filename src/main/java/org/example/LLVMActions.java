@@ -5,26 +5,26 @@ import java.util.Stack;
 
 
 public class LLVMActions extends BeguageBaseListener {
-    HashMap<String, Variable> variables = new HashMap<>();
-    Stack<Value> stack = new Stack<>();
+    HashMap<String, VariableOrValue> variables = new HashMap<>();
+    Stack<VariableOrValue> stack = new Stack<>();
     static int BUFFER_SIZE = 16;
 
 
     @Override
     public void exitAssign(BeguageParser.AssignContext ctx) {
         String ID = ctx.ID().getText();
-        Value variable = stack.pop();
-        variables.put(ID, new Variable(ID, variable.type));
+        VariableOrValue variable = stack.pop();
+        variables.put(ID, new VariableOrValue(ID, variable.type));
 
         if (variable.type == VarType.INT) {
             LLVMGenerator.declare_i32(ID);
-            LLVMGenerator.assign_i32(ID, variable.valueStr);
+            LLVMGenerator.assign_i32(ID, variable.nameOrValue);
         } else if (variable.type == VarType.FLOAT32) {
             LLVMGenerator.declare_f32(ID);
-            LLVMGenerator.assign_f32(ID, variable.valueStr);
+            LLVMGenerator.assign_f32(ID, variable.nameOrValue);
         } else if (variable.type == VarType.FLOAT64) {
             LLVMGenerator.declare_f64(ID);
-            LLVMGenerator.assign_f64(ID, variable.valueStr);
+            LLVMGenerator.assign_f64(ID, variable.nameOrValue);
         }
     }
 
@@ -35,33 +35,33 @@ public class LLVMActions extends BeguageBaseListener {
             error(ctx.getStart().getLine(), "variable was not declared");
         }
 
-        Value variable = stack.pop();
-        variables.put(ID, new Variable(ID, variable.type));
+        VariableOrValue variable = stack.pop();
+        variables.put(ID, new VariableOrValue(ID, variable.type));
 
         if (variable.type == VarType.INT) {
-            LLVMGenerator.assign_i32(ID, variable.valueStr);
+            LLVMGenerator.assign_i32(ID, variable.nameOrValue);
         } else if (variable.type == VarType.FLOAT32) {
-            LLVMGenerator.assign_f32(ID, variable.valueStr);
+            LLVMGenerator.assign_f32(ID, variable.nameOrValue);
         } else if (variable.type == VarType.FLOAT64) {
-            LLVMGenerator.assign_f64(ID, variable.valueStr);
+            LLVMGenerator.assign_f64(ID, variable.nameOrValue);
         }
     }
 
 
     @Override
     public void exitAdd(BeguageParser.AddContext ctx) {
-        Value v2 = stack.pop();
-        Value v1 = stack.pop();
+        VariableOrValue v2 = stack.pop();
+        VariableOrValue v1 = stack.pop();
         if (v1.type == v2.type) {
             if (v1.type == VarType.INT) {
-                LLVMGenerator.add_i32(v1.valueStr, v2.valueStr);
-                stack.push(new Value("%" + (LLVMGenerator.reg - 1), VarType.INT));
+                LLVMGenerator.add_i32(v1.nameOrValue, v2.nameOrValue);
+                stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), VarType.INT));
             } else if (v1.type == VarType.FLOAT32) {
-                LLVMGenerator.add_f32(v1.valueStr, v2.valueStr);
-                stack.push(new Value("%" + (LLVMGenerator.reg - 1), VarType.FLOAT32));
+                LLVMGenerator.add_f32(v1.nameOrValue, v2.nameOrValue);
+                stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), VarType.FLOAT32));
             } else if (v1.type == VarType.FLOAT64) {
-                LLVMGenerator.add_f64(v1.valueStr, v2.valueStr);
-                stack.push(new Value("%" + (LLVMGenerator.reg - 1), VarType.FLOAT64));
+                LLVMGenerator.add_f64(v1.nameOrValue, v2.nameOrValue);
+                stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), VarType.FLOAT64));
             }
         } else {
             error(ctx.getStart().getLine(), "add type mismatch");
@@ -70,18 +70,18 @@ public class LLVMActions extends BeguageBaseListener {
 
     @Override
     public void exitSub(BeguageParser.SubContext ctx) {
-        Value v2 = stack.pop();
-        Value v1 = stack.pop();
+        VariableOrValue v2 = stack.pop();
+        VariableOrValue v1 = stack.pop();
         if (v1.type == v2.type) {
             if (v1.type == VarType.INT) {
-                LLVMGenerator.sub_i32(v1.valueStr, v2.valueStr);
-                stack.push(new Value("%" + (LLVMGenerator.reg - 1), VarType.INT));
+                LLVMGenerator.sub_i32(v1.nameOrValue, v2.nameOrValue);
+                stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), VarType.INT));
             } else if (v1.type == VarType.FLOAT32) {
-                LLVMGenerator.sub_f32(v1.valueStr, v2.valueStr);
-                stack.push(new Value("%" + (LLVMGenerator.reg - 1), VarType.FLOAT32));
+                LLVMGenerator.sub_f32(v1.nameOrValue, v2.nameOrValue);
+                stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), VarType.FLOAT32));
             } else if (v1.type == VarType.FLOAT64) {
-                LLVMGenerator.sub_f64(v1.valueStr, v2.valueStr);
-                stack.push(new Value("%" + (LLVMGenerator.reg - 1), VarType.FLOAT64));
+                LLVMGenerator.sub_f64(v1.nameOrValue, v2.nameOrValue);
+                stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), VarType.FLOAT64));
             }
         } else {
             error(ctx.getStart().getLine(), "sub type mismatch");
@@ -90,18 +90,18 @@ public class LLVMActions extends BeguageBaseListener {
 
     @Override
     public void exitMul(BeguageParser.MulContext ctx) {
-        Value v1 = stack.pop();
-        Value v2 = stack.pop();
+        VariableOrValue v1 = stack.pop();
+        VariableOrValue v2 = stack.pop();
         if (v1.type == v2.type) {
             if (v1.type == VarType.INT) {
-                LLVMGenerator.mul_i32(v1.valueStr, v2.valueStr);
-                stack.push(new Value("%" + (LLVMGenerator.reg - 1), VarType.INT));
+                LLVMGenerator.mul_i32(v1.nameOrValue, v2.nameOrValue);
+                stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), VarType.INT));
             } else if (v1.type == VarType.FLOAT32) {
-                LLVMGenerator.mul_f32(v1.valueStr, v2.valueStr);
-                stack.push(new Value("%" + (LLVMGenerator.reg - 1), VarType.FLOAT32));
+                LLVMGenerator.mul_f32(v1.nameOrValue, v2.nameOrValue);
+                stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), VarType.FLOAT32));
             } else if (v1.type == VarType.FLOAT64) {
-                LLVMGenerator.mul_f64(v1.valueStr, v2.valueStr);
-                stack.push(new Value("%" + (LLVMGenerator.reg - 1), VarType.FLOAT64));
+                LLVMGenerator.mul_f64(v1.nameOrValue, v2.nameOrValue);
+                stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), VarType.FLOAT64));
             }
         } else {
             error(ctx.getStart().getLine(), "mult type mismatch");
@@ -110,18 +110,18 @@ public class LLVMActions extends BeguageBaseListener {
 
     @Override
     public void exitDiv(BeguageParser.DivContext ctx) {
-        Value v2 = stack.pop();
-        Value v1 = stack.pop();
+        VariableOrValue v2 = stack.pop();
+        VariableOrValue v1 = stack.pop();
         if (v1.type == v2.type) {
             if (v1.type == VarType.INT) {
-                LLVMGenerator.div_i32(v1.valueStr, v2.valueStr);
-                stack.push(new Value("%" + (LLVMGenerator.reg - 1), VarType.INT));
+                LLVMGenerator.div_i32(v1.nameOrValue, v2.nameOrValue);
+                stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), VarType.INT));
             } else if (v1.type == VarType.FLOAT32) {
-                LLVMGenerator.div_f32(v1.valueStr, v2.valueStr);
-                stack.push(new Value("%" + (LLVMGenerator.reg - 1), VarType.FLOAT32));
+                LLVMGenerator.div_f32(v1.nameOrValue, v2.nameOrValue);
+                stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), VarType.FLOAT32));
             } else if (v1.type == VarType.FLOAT64) {
-                LLVMGenerator.div_f64(v1.valueStr, v2.valueStr);
-                stack.push(new Value("%" + (LLVMGenerator.reg - 1), VarType.FLOAT64));
+                LLVMGenerator.div_f64(v1.nameOrValue, v2.nameOrValue);
+                stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), VarType.FLOAT64));
             }
         } else {
             error(ctx.getStart().getLine(), "div type mismatch");
@@ -129,10 +129,15 @@ public class LLVMActions extends BeguageBaseListener {
     }
 
     @Override
-    public void exitId(BeguageParser.IdContext ctx){
-        stack.push(new Value(ctx.ID().getText(), variables.get(ctx.ID().getText()).type));
+    public void exitId(BeguageParser.IdContext ctx) {
+        String ID = ctx.ID().getText();
+        if (variables.containsKey(ID)) {
+            LLVMGenerator.load(variables.get(ID));
+            stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), variables.get(ID).type));
+        } else {
+            error(ctx.getStart().getLine(), "unknown variable " + ID);
+        }
     }
-
 
 
     ///////////////////////////////READY TO USE////////////////////////////////////////
@@ -140,17 +145,17 @@ public class LLVMActions extends BeguageBaseListener {
 ///////////////////////////////READY TO USE////////////////////////////////////////
     @Override
     public void exitInt(BeguageParser.IntContext ctx) {
-        stack.push(new Value(ctx.INT().getText(), VarType.INT));
+        stack.push(new VariableOrValue(ctx.INT().getText(), VarType.INT));
     }
 
     @Override
     public void exitFloat32(BeguageParser.Float32Context ctx) {
-        stack.push(new Value(ctx.FLOAT32().getText(), VarType.FLOAT32));
+        stack.push(new VariableOrValue(ctx.FLOAT32().getText(), VarType.FLOAT32));
     }
 
     @Override
     public void exitFloat64(BeguageParser.Float64Context ctx) {
-        stack.push(new Value(ctx.FLOAT64().getText(), VarType.FLOAT64));
+        stack.push(new VariableOrValue(ctx.FLOAT64().getText(), VarType.FLOAT64));
     }
 
     @Override
@@ -160,7 +165,7 @@ public class LLVMActions extends BeguageBaseListener {
         if (type == VarType.UNRECOGNIZED) {
             error(ctx.getStart().getLine(), "unrecognized type");
         }
-        Variable v = new Variable(ID, type);
+        VariableOrValue v = new VariableOrValue(ID, type);
         if (variables.containsKey(ID)) {
             if (variables.get(ID).type != type) {
                 error(ctx.getStart().getLine(), "variable already declared with different type");
@@ -177,7 +182,7 @@ public class LLVMActions extends BeguageBaseListener {
     public void exitWrite(BeguageParser.WriteContext ctx) {
         String ID = ctx.ID().getText();
         if (variables.containsKey(ID)) {
-            Variable v = variables.get(ID);
+            VariableOrValue v = variables.get(ID);
             if (v.type != null) {
                 LLVMGenerator.printf(v);
             }
@@ -202,7 +207,7 @@ public class LLVMActions extends BeguageBaseListener {
 
 enum VarType {
     INT("i32"), FLOAT32("float"), FLOAT64("double"), UNRECOGNIZED("");
-    private final String llvmType;
+    public final String llvmType;
 
     VarType(String llvmType) {
         this.llvmType = llvmType;
@@ -226,52 +231,26 @@ enum VarType {
     }
 }
 
-class Value {
-    public String valueStr;
+class VariableOrValue {
+    public String nameOrValue;
     public VarType type;
 
-    public Value(String valueStr, VarType type) {
-        this.valueStr = valueStr;
+    public VariableOrValue(String nameOrValue, VarType type) {
+        this.nameOrValue = nameOrValue;
         this.type = type;
         if (type == VarType.FLOAT32) {
-            this.valueStr = LLVMUtils.floatStrToLLVM(valueStr);
+            this.nameOrValue = LLVMUtils.floatStrToLLVM(nameOrValue);
         } else if (type == VarType.FLOAT64) {
-            this.valueStr = LLVMUtils.doubleStrToLLVM(valueStr);
+            this.nameOrValue = LLVMUtils.doubleStrToLLVM(nameOrValue);
         }
     }
 
-    public String getValueStr() {
-        return valueStr;
+    public String getNameOrValue() {
+        return nameOrValue;
     }
 
-    public void setValueStr(String valueStr) {
-        this.valueStr = valueStr;
-    }
-
-    public VarType getType() {
-        return type;
-    }
-
-    public void setType(VarType type) {
-        this.type = type;
-    }
-}
-
-class Variable {
-    public String name;
-    public VarType type;
-
-    public Variable(String name, VarType type) {
-        this.name = name;
-        this.type = type;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+    public void setNameOrValue(String nameOrValue) {
+        this.nameOrValue = nameOrValue;
     }
 
     public VarType getType() {

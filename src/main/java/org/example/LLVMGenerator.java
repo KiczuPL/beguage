@@ -12,22 +12,22 @@ class LLVMGenerator {
 
 ///////////////////////////////TYPE CONVERSION////////////////////////////////////////
 
-    static void matchTypes(Value left, Value right) {
+    static void matchTypes(VariableOrValue left, VariableOrValue right) {
 
         if (left.type == right.type) {
             return;
         } else if (left.type == INT && right.type == FLOAT32) {
-            f32_to_i32(right.getValueStr());
+            f32_to_i32(right.getNameOrValue());
         } else if (left.type == INT && right.type == FLOAT64) {
-            f64_to_i32(right.getValueStr());
+            f64_to_i32(right.getNameOrValue());
         } else if (left.type == FLOAT32 && right.type == INT) {
-            i32_to_f32(right.getValueStr());
+            i32_to_f32(right.getNameOrValue());
         } else if (left.type == FLOAT32 && right.type == FLOAT64) {
-            f64_to_f32(right.getValueStr());
+            f64_to_f32(right.getNameOrValue());
         } else if (left.type == FLOAT64 && right.type == INT) {
-            i32_to_f64(right.getValueStr());
+            i32_to_f64(right.getNameOrValue());
         } else if (left.type == FLOAT64 && right.type == FLOAT32) {
-            f32_to_f64(right.getValueStr());
+            f32_to_f64(right.getNameOrValue());
         }
 
     }
@@ -134,12 +134,12 @@ class LLVMGenerator {
 /////////////////////ARITHMETIC OPERATIONS////////////////////////////////////////
 
 
-    /////////////////////ALLOCATE AND ASSIGN////////////////////////////////////////
-    public static void declare(Variable v) {
+    /////////////////////ALLOCATE, ASSIGN AND LOAD////////////////////////////////////////
+    public static void declare(VariableOrValue v) {
         switch (v.type) {
-            case INT -> declare_i32(v.getName());
-            case FLOAT32 -> declare_f32(v.getName());
-            case FLOAT64 -> declare_f64(v.getName());
+            case INT -> declare_i32(v.getNameOrValue());
+            case FLOAT32 -> declare_f32(v.getNameOrValue());
+            case FLOAT64 -> declare_f64(v.getNameOrValue());
             default -> {
             }
         }
@@ -170,14 +170,19 @@ class LLVMGenerator {
         String v = LLVMUtils.doubleStrToLLVM(value);
         main_text += "store double " + v + ", double* %" + id + "\n";
     }
-/////////////////////ALLOCATE AND ASSIGN////////////////////////////////////////
+    public static void load(VariableOrValue v) {
+        main_text += "%" + reg + " = load " + v.type.llvmType + ", " + v.type.llvmType + "* %" + v.getNameOrValue() + "\n";
+        reg++;
+    }
+
+/////////////////////ALLOCATE, ASSIGN AND LOAD////////////////////////////////////////
 
 
-    public static void printf(Variable v) {
+    public static void printf(VariableOrValue v) {
         switch (v.type) {
-            case INT -> printf_int(v.getName());
-            case FLOAT32 -> printf_float32(v.getName());
-            case FLOAT64 -> printf_float64(v.getName());
+            case INT -> printf_int(v.getNameOrValue());
+            case FLOAT32 -> printf_float32(v.getNameOrValue());
+            case FLOAT64 -> printf_float64(v.getNameOrValue());
             default -> {
             }
         }
@@ -207,11 +212,11 @@ class LLVMGenerator {
         reg++;
     }
 
-    public static void scanf(Variable v) {
+    public static void scanf(VariableOrValue v) {
         switch (v.type) {
-            case INT -> scanf_int(v.getName());
-            case FLOAT32 -> scanf_float32(v.getName());
-            case FLOAT64 -> scanf_float64(v.getName());
+            case INT -> scanf_int(v.getNameOrValue());
+            case FLOAT32 -> scanf_float32(v.getNameOrValue());
+            case FLOAT64 -> scanf_float64(v.getNameOrValue());
             default -> {
             }
         }
