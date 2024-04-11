@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="beguage:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/beguage_jar</output-path>
+    <root id="archive" name="beguage.jar">
+      <element id="module-output" name="beguage" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/antlr/antlr4-runtime/4.9.2/antlr4-runtime-4.9.2.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
