@@ -34,16 +34,23 @@ public class LLVMActions extends BeguageBaseListener {
         if (!variables.containsKey(ID)) {
             error(ctx.getStart().getLine(), "variable was not declared");
         }
+        VariableOrValue variable = variables.get(ID);
+        VariableOrValue newVariableValue = stack.pop();
 
-        VariableOrValue variable = stack.pop();
-        variables.put(ID, new VariableOrValue(ID, variable.type));
+        if (variable.type != newVariableValue.type) {
+            LLVMGenerator.matchTypes(variable, newVariableValue);
+            stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), variable.type));
+            newVariableValue = stack.pop();
+        }
 
-        if (variable.type == VarType.INT) {
-            LLVMGenerator.assign_i32(ID, variable.nameOrValue);
-        } else if (variable.type == VarType.FLOAT32) {
-            LLVMGenerator.assign_f32(ID, variable.nameOrValue);
-        } else if (variable.type == VarType.FLOAT64) {
-            LLVMGenerator.assign_f64(ID, variable.nameOrValue);
+        variables.put(ID, new VariableOrValue(ID, newVariableValue.type));
+
+        if (newVariableValue.type == VarType.INT) {
+            LLVMGenerator.assign_i32(ID, newVariableValue.nameOrValue);
+        } else if (newVariableValue.type == VarType.FLOAT32) {
+            LLVMGenerator.assign_f32(ID, newVariableValue.nameOrValue);
+        } else if (newVariableValue.type == VarType.FLOAT64) {
+            LLVMGenerator.assign_f64(ID, newVariableValue.nameOrValue);
         }
     }
 
@@ -54,7 +61,7 @@ public class LLVMActions extends BeguageBaseListener {
         VariableOrValue v1 = stack.pop();
         System.err.println(v1.nameOrValue + " " + v2.nameOrValue);
         System.err.println(v1.type + " " + v2.type);
-        if (v1.type != v2.type){
+        if (v1.type != v2.type) {
             LLVMGenerator.matchTypes(v1, v2);
             stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), v1.type));
             v2 = stack.pop();

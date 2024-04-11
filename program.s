@@ -1,18 +1,44 @@
 	.text
 	.file	"program.ll"
-	.globl	main                            # -- Begin function main
+	.section	.rodata.cst4,"aM",@progbits,4
+	.p2align	2                               # -- Begin function main
+.LCPI0_0:
+	.long	0x40000000                      # float 2
+	.text
+	.globl	main
 	.p2align	4, 0x90
 	.type	main,@function
 main:                                   # @main
 # %bb.0:
-	pushq	%rax
-	movl	$3, 4(%rsp)
-	movq	printf_str_int@GOTPCREL(%rip), %rdi
-	movl	$3, %esi
+	pushq	%rbx
+	subq	$16, %rsp
+	movq	scanf_str_int@GOTPCREL(%rip), %rdi
+	movq	%rsp, %rsi
 	xorl	%eax, %eax
+	callq	__isoc99_scanf@PLT
+	callq	getchar@PLT
+	movl	$5, 12(%rsp)
+	movl	$2, 8(%rsp)
+	cvtsi2ssl	(%rsp), %xmm0
+	addss	.LCPI0_0(%rip), %xmm0
+	movss	%xmm0, 4(%rsp)
+	cvtss2sd	%xmm0, %xmm0
+	movq	printf_str_float32@GOTPCREL(%rip), %rbx
+	movq	%rbx, %rdi
+	movb	$1, %al
+	callq	printf@PLT
+	movl	(%rsp), %eax
+	addl	$3, %eax
+	xorps	%xmm0, %xmm0
+	cvtsi2ss	%eax, %xmm0
+	movss	%xmm0, 4(%rsp)
+	cvtss2sd	%xmm0, %xmm0
+	movq	%rbx, %rdi
+	movb	$1, %al
 	callq	printf@PLT
 	xorl	%eax, %eax
-	popq	%rcx
+	addq	$16, %rsp
+	popq	%rbx
 	retq
 .Lfunc_end0:
 	.size	main, .Lfunc_end0-main
@@ -51,7 +77,7 @@ printf_str_float32:
 	.type	printf_str_float64,@object      # @printf_str_float64
 	.globl	printf_str_float64
 printf_str_float64:
-	.asciz	"%lf\n"
+	.asciz	"%fd\n"
 	.size	printf_str_float64, 5
 
 	.type	strpi,@object                   # @strpi

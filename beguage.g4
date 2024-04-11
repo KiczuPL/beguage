@@ -27,9 +27,6 @@ expression2: ID				    #id
       | FLOAT64			        #float64
       | FLOAT32			        #float32
       | INT			            #int
-      | TOINT expression2		#toint
-      | TOFLOAT32 expression2	#tofloat32
-      | TOFLOAT64 expression2	#tofloat64
       | '(' expression0 ')'		#par
       ;
 
@@ -45,13 +42,8 @@ ID:   ('a'..'z'|'A'..'Z')+;
 
 INT:  '-'? '0'..'9'+;
 
-FLOAT32:  '-'? '0'..'9'+ '.' '0'..'9'+ 'f'?;
-FLOAT64:  '-'? '0'..'9'+ '.' '0'..'9'+ 'd';
-
-
-TOINT: '(i32)';
-TOFLOAT32: '(f32)';
-TOFLOAT64: '(f64)';
+FLOAT32:  '-'? '0'..'9'+ ((('.' '0'..'9'+)? 'f') | 'f'?);
+FLOAT64:  '-'? '0'..'9'+ (('.' '0'..'9'+ 'd') | 'd');
 
 INT_KEYWORD: 'i32';
 FLOAT32_KEYWORD: 'f32';
