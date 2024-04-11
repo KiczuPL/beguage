@@ -52,19 +52,23 @@ public class LLVMActions extends BeguageBaseListener {
     public void exitAdd(BeguageParser.AddContext ctx) {
         VariableOrValue v2 = stack.pop();
         VariableOrValue v1 = stack.pop();
-        if (v1.type == v2.type) {
-            if (v1.type == VarType.INT) {
-                LLVMGenerator.add_i32(v1.nameOrValue, v2.nameOrValue);
-                stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), VarType.INT));
-            } else if (v1.type == VarType.FLOAT32) {
-                LLVMGenerator.add_f32(v1.nameOrValue, v2.nameOrValue);
-                stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), VarType.FLOAT32));
-            } else if (v1.type == VarType.FLOAT64) {
-                LLVMGenerator.add_f64(v1.nameOrValue, v2.nameOrValue);
-                stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), VarType.FLOAT64));
-            }
-        } else {
-            error(ctx.getStart().getLine(), "add type mismatch");
+        System.err.println(v1.nameOrValue + " " + v2.nameOrValue);
+        System.err.println(v1.type + " " + v2.type);
+        if (v1.type != v2.type){
+            LLVMGenerator.matchTypes(v1, v2);
+            stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), v1.type));
+            v2 = stack.pop();
+        }
+
+        if (v1.type == VarType.INT) {
+            LLVMGenerator.add_i32(v1.nameOrValue, v2.nameOrValue);
+            stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), VarType.INT));
+        } else if (v1.type == VarType.FLOAT32) {
+            LLVMGenerator.add_f32(v1.nameOrValue, v2.nameOrValue);
+            stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), VarType.FLOAT32));
+        } else if (v1.type == VarType.FLOAT64) {
+            LLVMGenerator.add_f64(v1.nameOrValue, v2.nameOrValue);
+            stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), VarType.FLOAT64));
         }
     }
 

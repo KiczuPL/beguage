@@ -17,9 +17,8 @@ public class BeguageParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, TYPE_AS=3, READ_TYPE=4, PRE_ASSIGN=5, ASSIGN=6, WRITE=7, 
-		READ=8, ID=9, INT=10, FLOAT32=11, FLOAT64=12, TOINT=13, TOFLOAT32=14, 
-		TOFLOAT64=15, INT_KEYWORD=16, FLOAT32_KEYWORD=17, FLOAT64_KEYWORD=18, 
-		NEWLINE=19, WS=20, ADD=21, SUB=22, MUL=23, DIV=24;
+		READ=8, ID=9, INT=10, FLOAT32=11, FLOAT64=12, INT_KEYWORD=13, FLOAT32_KEYWORD=14, 
+		FLOAT64_KEYWORD=15, NEWLINE=16, WS=17, ADD=18, SUB=19, MUL=20, DIV=21;
 	public static final int
 		RULE_program = 0, RULE_statement = 1, RULE_expression0 = 2, RULE_expression1 = 3, 
 		RULE_expression2 = 4;
@@ -33,17 +32,16 @@ public class BeguageParser extends Parser {
 	private static String[] makeLiteralNames() {
 		return new String[] {
 			null, "'('", "')'", "'as'", null, "'let'", "'be'", "'show'", "'provide'", 
-			null, null, null, null, "'(int)'", "'(float32)'", "'(float64)'", "'int'", 
-			"'float32'", "'float64'", null, null, "'+'", "'-'", "'*'", "'/'"
+			null, null, null, null, "'i32'", "'f32'", "'f64'", null, null, "'+'", 
+			"'-'", "'*'", "'/'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
 			null, null, null, "TYPE_AS", "READ_TYPE", "PRE_ASSIGN", "ASSIGN", "WRITE", 
-			"READ", "ID", "INT", "FLOAT32", "FLOAT64", "TOINT", "TOFLOAT32", "TOFLOAT64", 
-			"INT_KEYWORD", "FLOAT32_KEYWORD", "FLOAT64_KEYWORD", "NEWLINE", "WS", 
-			"ADD", "SUB", "MUL", "DIV"
+			"READ", "ID", "INT", "FLOAT32", "FLOAT64", "INT_KEYWORD", "FLOAT32_KEYWORD", 
+			"FLOAT64_KEYWORD", "NEWLINE", "WS", "ADD", "SUB", "MUL", "DIV"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -564,36 +562,6 @@ public class BeguageParser extends Parser {
 			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).exitPar(this);
 		}
 	}
-	public static class TointContext extends Expression2Context {
-		public TerminalNode TOINT() { return getToken(BeguageParser.TOINT, 0); }
-		public Expression2Context expression2() {
-			return getRuleContext(Expression2Context.class,0);
-		}
-		public TointContext(Expression2Context ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).enterToint(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).exitToint(this);
-		}
-	}
-	public static class Tofloat32Context extends Expression2Context {
-		public TerminalNode TOFLOAT32() { return getToken(BeguageParser.TOFLOAT32, 0); }
-		public Expression2Context expression2() {
-			return getRuleContext(Expression2Context.class,0);
-		}
-		public Tofloat32Context(Expression2Context ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).enterTofloat32(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).exitTofloat32(this);
-		}
-	}
 	public static class Float32Context extends Expression2Context {
 		public TerminalNode FLOAT32() { return getToken(BeguageParser.FLOAT32, 0); }
 		public Float32Context(Expression2Context ctx) { copyFrom(ctx); }
@@ -604,21 +572,6 @@ public class BeguageParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).exitFloat32(this);
-		}
-	}
-	public static class Tofloat64Context extends Expression2Context {
-		public TerminalNode TOFLOAT64() { return getToken(BeguageParser.TOFLOAT64, 0); }
-		public Expression2Context expression2() {
-			return getRuleContext(Expression2Context.class,0);
-		}
-		public Tofloat64Context(Expression2Context ctx) { copyFrom(ctx); }
-		@Override
-		public void enterRule(ParseTreeListener listener) {
-			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).enterTofloat64(this);
-		}
-		@Override
-		public void exitRule(ParseTreeListener listener) {
-			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).exitTofloat64(this);
 		}
 	}
 	public static class IdContext extends Expression2Context {
@@ -662,7 +615,7 @@ public class BeguageParser extends Parser {
 		Expression2Context _localctx = new Expression2Context(_ctx, getState());
 		enterRule(_localctx, 8, RULE_expression2);
 		try {
-			setState(70);
+			setState(64);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case ID:
@@ -697,45 +650,15 @@ public class BeguageParser extends Parser {
 				match(INT);
 				}
 				break;
-			case TOINT:
-				_localctx = new TointContext(_localctx);
+			case T__0:
+				_localctx = new ParContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
 				setState(60);
-				match(TOINT);
-				setState(61);
-				expression2();
-				}
-				break;
-			case TOFLOAT32:
-				_localctx = new Tofloat32Context(_localctx);
-				enterOuterAlt(_localctx, 6);
-				{
-				setState(62);
-				match(TOFLOAT32);
-				setState(63);
-				expression2();
-				}
-				break;
-			case TOFLOAT64:
-				_localctx = new Tofloat64Context(_localctx);
-				enterOuterAlt(_localctx, 7);
-				{
-				setState(64);
-				match(TOFLOAT64);
-				setState(65);
-				expression2();
-				}
-				break;
-			case T__0:
-				_localctx = new ParContext(_localctx);
-				enterOuterAlt(_localctx, 8);
-				{
-				setState(66);
 				match(T__0);
-				setState(67);
+				setState(61);
 				expression0();
-				setState(68);
+				setState(62);
 				match(T__1);
 				}
 				break;
@@ -755,26 +678,25 @@ public class BeguageParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\32K\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\27E\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\3\2\5\2\16\n\2\3\2\7\2\21\n\2\f\2\16\2\24\13"+
 		"\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3#\n\3\3\4\3"+
 		"\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4.\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\5\3"+
-		"\5\3\5\5\59\n\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3"+
-		"\6\5\6I\n\6\3\6\2\2\7\2\4\6\b\n\2\2\2U\2\22\3\2\2\2\4\"\3\2\2\2\6-\3\2"+
-		"\2\2\b8\3\2\2\2\nH\3\2\2\2\f\16\5\4\3\2\r\f\3\2\2\2\r\16\3\2\2\2\16\17"+
-		"\3\2\2\2\17\21\7\25\2\2\20\r\3\2\2\2\21\24\3\2\2\2\22\20\3\2\2\2\22\23"+
-		"\3\2\2\2\23\3\3\2\2\2\24\22\3\2\2\2\25\26\7\t\2\2\26#\7\13\2\2\27\30\7"+
-		"\7\2\2\30\31\7\13\2\2\31\32\7\b\2\2\32#\5\6\4\2\33\34\7\13\2\2\34\35\7"+
-		"\b\2\2\35#\5\6\4\2\36\37\7\n\2\2\37 \7\13\2\2 !\7\5\2\2!#\7\6\2\2\"\25"+
-		"\3\2\2\2\"\27\3\2\2\2\"\33\3\2\2\2\"\36\3\2\2\2#\5\3\2\2\2$.\5\b\5\2%"+
-		"&\5\b\5\2&\'\7\27\2\2\'(\5\6\4\2(.\3\2\2\2)*\5\b\5\2*+\7\30\2\2+,\5\6"+
-		"\4\2,.\3\2\2\2-$\3\2\2\2-%\3\2\2\2-)\3\2\2\2.\7\3\2\2\2/9\5\n\6\2\60\61"+
-		"\5\n\6\2\61\62\7\31\2\2\62\63\5\b\5\2\639\3\2\2\2\64\65\5\n\6\2\65\66"+
-		"\7\32\2\2\66\67\5\b\5\2\679\3\2\2\28/\3\2\2\28\60\3\2\2\28\64\3\2\2\2"+
-		"9\t\3\2\2\2:I\7\13\2\2;I\7\16\2\2<I\7\r\2\2=I\7\f\2\2>?\7\17\2\2?I\5\n"+
-		"\6\2@A\7\20\2\2AI\5\n\6\2BC\7\21\2\2CI\5\n\6\2DE\7\3\2\2EF\5\6\4\2FG\7"+
-		"\4\2\2GI\3\2\2\2H:\3\2\2\2H;\3\2\2\2H<\3\2\2\2H=\3\2\2\2H>\3\2\2\2H@\3"+
-		"\2\2\2HB\3\2\2\2HD\3\2\2\2I\13\3\2\2\2\b\r\22\"-8H";
+		"\5\3\5\5\59\n\5\3\6\3\6\3\6\3\6\3\6\3\6\3\6\3\6\5\6C\n\6\3\6\2\2\7\2\4"+
+		"\6\b\n\2\2\2L\2\22\3\2\2\2\4\"\3\2\2\2\6-\3\2\2\2\b8\3\2\2\2\nB\3\2\2"+
+		"\2\f\16\5\4\3\2\r\f\3\2\2\2\r\16\3\2\2\2\16\17\3\2\2\2\17\21\7\22\2\2"+
+		"\20\r\3\2\2\2\21\24\3\2\2\2\22\20\3\2\2\2\22\23\3\2\2\2\23\3\3\2\2\2\24"+
+		"\22\3\2\2\2\25\26\7\t\2\2\26#\7\13\2\2\27\30\7\7\2\2\30\31\7\13\2\2\31"+
+		"\32\7\b\2\2\32#\5\6\4\2\33\34\7\13\2\2\34\35\7\b\2\2\35#\5\6\4\2\36\37"+
+		"\7\n\2\2\37 \7\13\2\2 !\7\5\2\2!#\7\6\2\2\"\25\3\2\2\2\"\27\3\2\2\2\""+
+		"\33\3\2\2\2\"\36\3\2\2\2#\5\3\2\2\2$.\5\b\5\2%&\5\b\5\2&\'\7\24\2\2\'"+
+		"(\5\6\4\2(.\3\2\2\2)*\5\b\5\2*+\7\25\2\2+,\5\6\4\2,.\3\2\2\2-$\3\2\2\2"+
+		"-%\3\2\2\2-)\3\2\2\2.\7\3\2\2\2/9\5\n\6\2\60\61\5\n\6\2\61\62\7\26\2\2"+
+		"\62\63\5\b\5\2\639\3\2\2\2\64\65\5\n\6\2\65\66\7\27\2\2\66\67\5\b\5\2"+
+		"\679\3\2\2\28/\3\2\2\28\60\3\2\2\28\64\3\2\2\29\t\3\2\2\2:C\7\13\2\2;"+
+		"C\7\16\2\2<C\7\r\2\2=C\7\f\2\2>?\7\3\2\2?@\5\6\4\2@A\7\4\2\2AC\3\2\2\2"+
+		"B:\3\2\2\2B;\3\2\2\2B<\3\2\2\2B=\3\2\2\2B>\3\2\2\2C\13\3\2\2\2\b\r\22"+
+		"\"-8B";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

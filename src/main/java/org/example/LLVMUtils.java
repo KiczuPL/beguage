@@ -2,7 +2,8 @@ package org.example;
 
 public final class LLVMUtils {
     public static String floatStrToLLVM(String floatStr) {
-        if (floatStr.startsWith("%")) {
+        System.err.println("parsign float: " + floatStr);
+        if (!Character.isDigit(floatStr.charAt(0))) {
             return floatStr;
         }
         if (floatStr.endsWith("f")) {
@@ -13,7 +14,7 @@ public final class LLVMUtils {
     }
 
     public static String doubleStrToLLVM(String doubleStr) {
-        if (doubleStr.startsWith("%")) {
+        if (!Character.isDigit(doubleStr.charAt(0))){
             return doubleStr;
         }
         if (doubleStr.endsWith("d")) {
