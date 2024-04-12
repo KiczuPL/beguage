@@ -156,8 +156,8 @@ public class LLVMActions extends BeguageBaseListener {
     @Override
     public void exitTo_int(BeguageParser.To_intContext ctx) {
         VariableOrValue v = stack.pop();
-        LLVMGenerator.matchTypes(v, VarType.FLOAT32);
-        stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), VarType.FLOAT32));
+        LLVMGenerator.matchTypes(v, VarType.INT);
+        stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), VarType.INT));
     }
 
     @Override
