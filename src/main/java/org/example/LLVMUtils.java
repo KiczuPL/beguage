@@ -4,6 +4,8 @@ public final class LLVMUtils {
     public static String floatStrToLLVM(String floatStr) {
         if (!Character.isDigit(floatStr.charAt(0))) {
             return floatStr;
+        }else if(floatStr.startsWith("0x")){
+            return floatStr;
         }
         if (floatStr.endsWith("f")) {
             return floatStrToLLVM(floatStr.replace("f", ""));
@@ -14,6 +16,8 @@ public final class LLVMUtils {
 
     public static String doubleStrToLLVM(String doubleStr) {
         if (!Character.isDigit(doubleStr.charAt(0))) {
+            return doubleStr;
+        }else if(doubleStr.startsWith("0x")){
             return doubleStr;
         }
         if (doubleStr.endsWith("d")) {
