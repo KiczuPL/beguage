@@ -185,6 +185,42 @@ public interface BeguageListener extends ParseTreeListener {
 	 */
 	void exitInt(BeguageParser.IntContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code to_int}
+	 * labeled alternative in {@link BeguageParser#expression2}.
+	 * @param ctx the parse tree
+	 */
+	void enterTo_int(BeguageParser.To_intContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code to_int}
+	 * labeled alternative in {@link BeguageParser#expression2}.
+	 * @param ctx the parse tree
+	 */
+	void exitTo_int(BeguageParser.To_intContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code to_float64}
+	 * labeled alternative in {@link BeguageParser#expression2}.
+	 * @param ctx the parse tree
+	 */
+	void enterTo_float64(BeguageParser.To_float64Context ctx);
+	/**
+	 * Exit a parse tree produced by the {@code to_float64}
+	 * labeled alternative in {@link BeguageParser#expression2}.
+	 * @param ctx the parse tree
+	 */
+	void exitTo_float64(BeguageParser.To_float64Context ctx);
+	/**
+	 * Enter a parse tree produced by the {@code to_float32}
+	 * labeled alternative in {@link BeguageParser#expression2}.
+	 * @param ctx the parse tree
+	 */
+	void enterTo_float32(BeguageParser.To_float32Context ctx);
+	/**
+	 * Exit a parse tree produced by the {@code to_float32}
+	 * labeled alternative in {@link BeguageParser#expression2}.
+	 * @param ctx the parse tree
+	 */
+	void exitTo_float32(BeguageParser.To_float32Context ctx);
+	/**
 	 * Enter a parse tree produced by the {@code par}
 	 * labeled alternative in {@link BeguageParser#expression2}.
 	 * @param ctx the parse tree

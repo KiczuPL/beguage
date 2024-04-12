@@ -2,7 +2,7 @@
 provide c as i32
 let a be 5
 let b be 2
-let liczbai be  2f + c
+let liczbai be  2 + c
 show liczbai
-liczbai be c / 0.33d
+liczbai be (f64)c / 1.35d
 show liczbai

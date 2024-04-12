@@ -12,24 +12,26 @@ class LLVMGenerator {
 
 ///////////////////////////////TYPE CONVERSION////////////////////////////////////////
 
-    static void matchTypes(VariableOrValue left, VariableOrValue right) {
-
-        if (left.type == right.type) {
+    static void matchTypes(VariableOrValue variable, VarType targetType) {
+        if (targetType == variable.type) {
             return;
-        } else if (left.type == INT && right.type == FLOAT32) {
-            f32_to_i32(right.getNameOrValue());
-        } else if (left.type == INT && right.type == FLOAT64) {
-            f64_to_i32(right.getNameOrValue());
-        } else if (left.type == FLOAT32 && right.type == INT) {
-            i32_to_f32(right.getNameOrValue());
-        } else if (left.type == FLOAT32 && right.type == FLOAT64) {
-            f64_to_f32(right.getNameOrValue());
-        } else if (left.type == FLOAT64 && right.type == INT) {
-            i32_to_f64(right.getNameOrValue());
-        } else if (left.type == FLOAT64 && right.type == FLOAT32) {
-            f32_to_f64(right.getNameOrValue());
+        } else if (targetType == INT && variable.type == FLOAT32) {
+            f32_to_i32(variable.getNameOrValue());
+        } else if (targetType == INT && variable.type == FLOAT64) {
+            f64_to_i32(variable.getNameOrValue());
+        } else if (targetType == FLOAT32 && variable.type == INT) {
+            i32_to_f32(variable.getNameOrValue());
+        } else if (targetType == FLOAT32 && variable.type == FLOAT64) {
+            f64_to_f32(variable.getNameOrValue());
+        } else if (targetType == FLOAT64 && variable.type == INT) {
+            i32_to_f64(variable.getNameOrValue());
+        } else if (targetType == FLOAT64 && variable.type == FLOAT32) {
+            f32_to_f64(variable.getNameOrValue());
         }
+    }
 
+    static void matchTypes(VariableOrValue left, VariableOrValue right) {
+        matchTypes(right, left.type);
     }
 
     static void f64_to_i32(String id) {
@@ -170,6 +172,7 @@ class LLVMGenerator {
         String v = LLVMUtils.doubleStrToLLVM(value);
         main_text += "store double " + v + ", double* %" + id + "\n";
     }
+
     public static void load(VariableOrValue v) {
         main_text += "%" + reg + " = load " + v.type.llvmType + ", " + v.type.llvmType + "* %" + v.getNameOrValue() + "\n";
         reg++;

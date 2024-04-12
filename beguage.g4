@@ -10,7 +10,7 @@ statement:	WRITE ID 		                #write
 	| READ ID TYPE_AS READ_TYPE    	        #read
     ;
 
-TYPE_AS: 'as';
+TYPE_AS: ' as ';
 READ_TYPE: INT_KEYWORD | FLOAT32_KEYWORD | FLOAT64_KEYWORD;
 
 expression0:  expression1			#single0
@@ -27,6 +27,9 @@ expression2: ID				    #id
       | FLOAT64			        #float64
       | FLOAT32			        #float32
       | INT			            #int
+      | CONV_INT  expression2  			        #to_int
+      | CONV_FLOAT64  expression2  			    #to_float64
+      | CONV_FLOAT32  expression2  			    #to_float32
       | '(' expression0 ')'		#par
       ;
 
@@ -49,12 +52,17 @@ INT_KEYWORD: 'i32';
 FLOAT32_KEYWORD: 'f32';
 FLOAT64_KEYWORD: 'f64';
 
+CONV_INT: '(i32)';
+CONV_FLOAT32: '(f32)';
+CONV_FLOAT64: '(f64)';
+
 NEWLINE:	'\r'? '\n'
     ;
 
-WS:   (' '|'\t')+ { skip(); }
-    ;
+
 ADD: '+';
 SUB: '-';
 MUL: '*';
 DIV: '/';
+
+WS:   (' '|'\t')+ { skip(); };
