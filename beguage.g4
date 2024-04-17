@@ -1,14 +1,27 @@
 grammar Beguage;
 
-program: ( (statement)? NEWLINE )*
+program: block
 ;
 
+block: ( statement? NEWLINE )*
+ ;
 
-statement:	WRITE ID 		                #write
+statement: IF condition blockIf END_BLOCK 	#if
+    | WRITE ID 		                #write
 	| PRE_ASSIGN ID ASSIGN expression0		#assign
 	| ID ASSIGN expression0		            #reassign
 	| READ ID TYPE_AS READ_TYPE    	        #read
     ;
+
+blockIf: block
+;
+
+condition: '(' expression0 EQUAL expression0 ')'   #equal
+    ;
+
+IF: 'if';
+EQUAL: '==';
+END_BLOCK: 'end';
 
 TYPE_AS: ' as ';
 READ_TYPE: INT_KEYWORD | FLOAT32_KEYWORD | FLOAT64_KEYWORD;
@@ -45,7 +58,7 @@ ID:   ('a'..'z'|'A'..'Z')+;
 
 INT:  '-'? '0'..'9'+;
 
-FLOAT32:  '-'? '0'..'9'+ ((('.' '0'..'9'+)? 'f') | 'f'?);
+FLOAT32:  '-'? '0'..'9'+ ((('.' '0'..'9'*)? '\\.'? 'f') | (('.' '0'..'9'+) 'f'?));
 FLOAT64:  '-'? '0'..'9'+ (('.' '0'..'9'+ 'd') | 'd');
 
 INT_KEYWORD: 'i32';

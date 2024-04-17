@@ -17,6 +17,28 @@ public interface BeguageListener extends ParseTreeListener {
 	 */
 	void exitProgram(BeguageParser.ProgramContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link BeguageParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlock(BeguageParser.BlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BeguageParser#block}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlock(BeguageParser.BlockContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code if}
+	 * labeled alternative in {@link BeguageParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterIf(BeguageParser.IfContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code if}
+	 * labeled alternative in {@link BeguageParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitIf(BeguageParser.IfContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code write}
 	 * labeled alternative in {@link BeguageParser#statement}.
 	 * @param ctx the parse tree
@@ -64,6 +86,28 @@ public interface BeguageListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitRead(BeguageParser.ReadContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BeguageParser#blockIf}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlockIf(BeguageParser.BlockIfContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BeguageParser#blockIf}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlockIf(BeguageParser.BlockIfContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code equal}
+	 * labeled alternative in {@link BeguageParser#condition}.
+	 * @param ctx the parse tree
+	 */
+	void enterEqual(BeguageParser.EqualContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code equal}
+	 * labeled alternative in {@link BeguageParser#condition}.
+	 * @param ctx the parse tree
+	 */
+	void exitEqual(BeguageParser.EqualContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code single0}
 	 * labeled alternative in {@link BeguageParser#expression0}.

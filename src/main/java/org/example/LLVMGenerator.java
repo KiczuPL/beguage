@@ -1,6 +1,8 @@
 package org.example;
 
 
+import java.util.Stack;
+
 import static org.example.VarType.*;
 
 class LLVMGenerator {
@@ -8,6 +10,9 @@ class LLVMGenerator {
     static String header_text = "";
     static String main_text = "";
     static int reg = 1;
+    static int br = 0;
+
+    static Stack<Integer> brstack = new Stack<Integer>();
 
 
 ///////////////////////////////TYPE CONVERSION////////////////////////////////////////
@@ -267,6 +272,29 @@ class LLVMGenerator {
         text += main_text;
         text += "ret i32 0 }\n";
         return text;
+    }
+
+    public static void ifstart() {
+        br++;
+        main_text += "br i1 %" + (reg - 1) + ", label %true" + br + ", label %false" + br + "\n";
+        main_text += "true" + br + ":\n";
+        brstack.push(br);
+    }
+
+    public static void ifend() {
+        int b = brstack.pop();
+        main_text += "br label %false" + b + "\n";
+        main_text += "false" + b + ":\n";
+    }
+
+    public static void icmp(VariableOrValue right, VariableOrValue left) {
+        main_text += "%" + reg + " = icmp eq " + left.type.llvmType + " " + left.nameOrValue + ", " + right.getNameOrValue() + "\n";
+        reg++;
+    }
+
+    public static void fcmp(VariableOrValue left, VariableOrValue right) {
+        main_text += "%" + reg + " = fcmp oeq " + left.type.llvmType + " " + left.nameOrValue + ", " + right.getNameOrValue() + "\n";
+        reg++;
     }
 }
 

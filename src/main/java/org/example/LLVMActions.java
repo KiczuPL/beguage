@@ -11,6 +11,34 @@ public class LLVMActions extends BeguageBaseListener {
 
 
     @Override
+    public void enterBlockIf(BeguageParser.BlockIfContext ctx) {
+        LLVMGenerator.ifstart();
+    }
+
+    @Override
+    public void exitBlockIf(BeguageParser.BlockIfContext ctx) {
+        LLVMGenerator.ifend();
+    }
+
+    @Override
+    public void exitEqual(BeguageParser.EqualContext ctx) {
+        VariableOrValue right = stack.pop();
+        VariableOrValue left = stack.pop();
+        if (left.type != right.type) {
+            error(ctx.getStart().getLine(), "comparing different types, please cast them to the same type");
+        }
+        if (left.type == VarType.FLOAT32 || left.type == VarType.FLOAT64) {
+            LLVMGenerator.fcmp(left, right);
+        } else if (left.type == VarType.INT) {
+            LLVMGenerator.icmp(left, right);
+        }
+    }
+
+
+    ///////////////////////////////READY TO USE////////////////////////////////////////
+///////////////////////////////READY TO USE////////////////////////////////////////
+///////////////////////////////READY TO USE////////////////////////////////////////
+    @Override
     public void exitAssign(BeguageParser.AssignContext ctx) {
         String ID = ctx.ID().getText();
         VariableOrValue variable = stack.pop();
@@ -175,9 +203,6 @@ public class LLVMActions extends BeguageBaseListener {
     }
 
 
-    ///////////////////////////////READY TO USE////////////////////////////////////////
-///////////////////////////////READY TO USE////////////////////////////////////////
-///////////////////////////////READY TO USE////////////////////////////////////////
     @Override
     public void exitInt(BeguageParser.IntContext ctx) {
         stack.push(new VariableOrValue(ctx.INT().getText(), VarType.INT));
