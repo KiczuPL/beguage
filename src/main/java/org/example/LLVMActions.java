@@ -30,6 +30,8 @@ public class LLVMActions extends BeguageBaseListener {
             LLVMGenerator.fcmp(left, right, ComparisonType.EQUAL);
         } else if (left.type == VarType.INT) {
             LLVMGenerator.icmp(left, right, ComparisonType.EQUAL);
+        } else {
+            error(ctx.getStart().getLine(), "comparing different types");
         }
     }
 
@@ -44,6 +46,8 @@ public class LLVMActions extends BeguageBaseListener {
             LLVMGenerator.fcmp(left, right, ComparisonType.NOTEQUAL);
         } else if (left.type == VarType.INT) {
             LLVMGenerator.icmp(left, right, ComparisonType.NOTEQUAL);
+        } else {
+            error(ctx.getStart().getLine(), "comparing different types");
         }
     }
 
@@ -72,6 +76,8 @@ public class LLVMActions extends BeguageBaseListener {
             LLVMGenerator.fcmp(left, right, ComparisonType.LESS);
         } else if (left.type == VarType.INT) {
             LLVMGenerator.icmp(left, right, ComparisonType.LESS);
+        } else {
+            error(ctx.getStart().getLine(), "comparing different types");
         }
     }
 
@@ -86,6 +92,8 @@ public class LLVMActions extends BeguageBaseListener {
             LLVMGenerator.fcmp(left, right, ComparisonType.GREATEREQUAL);
         } else if (left.type == VarType.INT) {
             LLVMGenerator.icmp(left, right, ComparisonType.GREATEREQUAL);
+        } else {
+            error(ctx.getStart().getLine(), "comparing different types");
         }
     }
 
@@ -100,6 +108,8 @@ public class LLVMActions extends BeguageBaseListener {
             LLVMGenerator.fcmp(left, right, ComparisonType.LESSEQUAL);
         } else if (left.type == VarType.INT) {
             LLVMGenerator.icmp(left, right, ComparisonType.LESSEQUAL);
+        } else {
+            error(ctx.getStart().getLine(), "comparing different types");
         }
     }
 
@@ -324,12 +334,9 @@ public class LLVMActions extends BeguageBaseListener {
 
     @Override
     public void exitWrite(BeguageParser.WriteContext ctx) {
-        String ID = ctx.ID().getText();
-        if (variables.containsKey(ID)) {
-            VariableOrValue v = variables.get(ID);
-            if (v.type != null) {
-                LLVMGenerator.printf(v);
-            }
+        VariableOrValue v = stack.pop();
+        if (v.type != null) {
+            LLVMGenerator.printf(v);
         } else {
             error(ctx.getStart().getLine(), "unknown variable");
         }

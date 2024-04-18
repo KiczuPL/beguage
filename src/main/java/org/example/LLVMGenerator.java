@@ -198,25 +198,25 @@ class LLVMGenerator {
 
     /////////////////////SCANF AND PRINTF////////////////////////////////////////
     static void printf_int(String id) {
-        main_text += "%" + reg + " = load i32, i32* %" + id + "\n";
-        reg++;
-        main_text += "%" + reg + " = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @printf_str_int, i32 0, i32 0), i32 %" + (reg - 1) + ")\n";
+//        main_text += "%" + reg + " = load i32, i32* " + id + "\n";
+//        reg++;
+        main_text += "%" + reg + " = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @printf_str_int, i32 0, i32 0), i32 " + (id) + ")\n";
         reg++;
     }
 
     static void printf_float32(String id) {
-        main_text += "%" + reg + " = load float, float* %" + id + "\n";
-        reg++;
-        main_text += "%" + reg + " = fpext float %" + (reg - 1) + " to double\n";
-        reg++;
-        main_text += "%" + reg + " = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @printf_str_float32, i32 0, i32 0), double %" + (reg - 1) + ")\n";
+//        main_text += "%" + reg + " = load float, float* " + id + "\n";
+//        reg++;
+//        main_text += "%" + reg + " = fpext float %" + (reg - 1) + " to double\n";
+//        reg++;
+        main_text += "%" + reg + " = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @printf_str_float32, i32 0, i32 0), double " + (id) + ")\n";
         reg++;
     }
 
     static void printf_float64(String id) {
-        main_text += "%" + reg + " = load double, double* %" + id + "\n";
-        reg++;
-        main_text += "%" + reg + " = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @printf_str_float64, i32 0, i32 0), double %" + (reg - 1) + ")\n";
+//        main_text += "%" + reg + " = load double, double* " + id + "\n";
+//        reg++;
+        main_text += "%" + reg + " = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @printf_str_float64, i32 0, i32 0), double " + (id) + ")\n";
         reg++;
     }
 
