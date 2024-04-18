@@ -207,9 +207,9 @@ class LLVMGenerator {
     static void printf_float32(String id) {
 //        main_text += "%" + reg + " = load float, float* " + id + "\n";
 //        reg++;
-//        main_text += "%" + reg + " = fpext float %" + (reg - 1) + " to double\n";
-//        reg++;
-        main_text += "%" + reg + " = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @printf_str_float32, i32 0, i32 0), double " + (id) + ")\n";
+        main_text += "%" + reg + " = fpext float " + (id) + " to double\n";
+        reg++;
+        main_text += "%" + reg + " = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @printf_str_float32, i32 0, i32 0), double %" + (reg - 1) + ")\n";
         reg++;
     }
 
@@ -282,7 +282,7 @@ class LLVMGenerator {
     }
 
     public static void whileBodyStart() {
-        main_text += "br i1 %" + (reg - 1) + ", label %body" + br + ", label %exit" + br+ "\n";
+        main_text += "br i1 %" + (reg - 1) + ", label %body" + br + ", label %exit" + br + "\n";
         main_text += "body" + br + ":\n";
         brstack.push(br);
     }
