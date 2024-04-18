@@ -6,21 +6,39 @@ program: block
 block: ( statement? NEWLINE )*
  ;
 
-statement: IF condition blockIf END_BLOCK 	#if
-    | WRITE ID 		                        #write
-	| PRE_ASSIGN ID ASSIGN expression0		#assign
-	| ID ASSIGN expression0		            #reassign
-	| READ ID TYPE_AS READ_TYPE    	        #read
+statement: IF condition blockIf END_BLOCK 	        #if
+    | REPEAT condition blockRepeat END_BLOCK		#repeat
+    | WRITE ID 		                                #write
+	| PRE_ASSIGN ID ASSIGN expression0	            #assign
+	| ID ASSIGN expression0		                    #reassign
+	| READ ID TYPE_AS READ_TYPE    	                #read
     ;
 
-blockIf: block
-;
+blockIf: block;
 
-condition: '(' expression0 EQUAL expression0 ')'   #equal
+blockRepeat: block;
+
+condition: '(' conditionalExpression ')'
     ;
+
+conditionalExpression: expression0 EQUAL expression0   #equal
+    | expression0 NOT_EQUAL expression0                 #notEqual
+    | expression0 GREATER expression0                  #greater
+    | expression0 LESS expression0                     #less
+    | expression0 LESS_EQUAL expression0               #lessEqual
+    | expression0 GREATER_EQUAL expression0            #greaterEqual
+    ;
+
 
 IF: 'if';
+REPEAT: 'go';
 EQUAL: '==';
+GREATER: '>';
+LESS: '<';
+NOT_EQUAL: '!=';
+LESS_EQUAL: '<=';
+GREATER_EQUAL: '>=';
+
 END_BLOCK: 'end';
 
 TYPE_AS: ' as ';

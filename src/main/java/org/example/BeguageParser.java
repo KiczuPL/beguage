@@ -17,36 +17,40 @@ public class BeguageParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, IF=3, EQUAL=4, END_BLOCK=5, TYPE_AS=6, READ_TYPE=7, PRE_ASSIGN=8, 
-		ASSIGN=9, WRITE=10, READ=11, SUB=12, ADD=13, MUL=14, DIV=15, ID=16, INT=17, 
-		FLOAT32=18, FLOAT64=19, INT_KEYWORD=20, FLOAT32_KEYWORD=21, FLOAT64_KEYWORD=22, 
-		CONV_INT=23, CONV_FLOAT32=24, CONV_FLOAT64=25, NEWLINE=26, WS=27;
+		T__0=1, T__1=2, IF=3, REPEAT=4, EQUAL=5, GREATER=6, LESS=7, NOT_EQUAL=8, 
+		LESS_EQUAL=9, GREATER_EQUAL=10, END_BLOCK=11, TYPE_AS=12, READ_TYPE=13, 
+		PRE_ASSIGN=14, ASSIGN=15, WRITE=16, READ=17, SUB=18, ADD=19, MUL=20, DIV=21, 
+		ID=22, INT=23, FLOAT32=24, FLOAT64=25, INT_KEYWORD=26, FLOAT32_KEYWORD=27, 
+		FLOAT64_KEYWORD=28, CONV_INT=29, CONV_FLOAT32=30, CONV_FLOAT64=31, NEWLINE=32, 
+		WS=33;
 	public static final int
 		RULE_program = 0, RULE_block = 1, RULE_statement = 2, RULE_blockIf = 3, 
-		RULE_condition = 4, RULE_expression0 = 5, RULE_expression1 = 6, RULE_expression2 = 7;
+		RULE_blockRepeat = 4, RULE_condition = 5, RULE_conditionalExpression = 6, 
+		RULE_expression0 = 7, RULE_expression1 = 8, RULE_expression2 = 9;
 	private static String[] makeRuleNames() {
 		return new String[] {
-			"program", "block", "statement", "blockIf", "condition", "expression0", 
-			"expression1", "expression2"
+			"program", "block", "statement", "blockIf", "blockRepeat", "condition", 
+			"conditionalExpression", "expression0", "expression1", "expression2"
 		};
 	}
 	public static final String[] ruleNames = makeRuleNames();
 
 	private static String[] makeLiteralNames() {
 		return new String[] {
-			null, "'('", "')'", "'if'", "'=='", "'end'", "' as '", null, "'let'", 
-			"'be'", "'show'", "'provide'", "'-'", "'+'", "'*'", "'/'", null, null, 
-			null, null, "'i32'", "'f32'", "'f64'", "'(i32)'", "'(f32)'", "'(f64)'"
+			null, "'('", "')'", "'if'", "'go'", "'=='", "'>'", "'<'", "'!='", "'<='", 
+			"'>='", "'end'", "' as '", null, "'let'", "'be'", "'show'", "'provide'", 
+			"'-'", "'+'", "'*'", "'/'", null, null, null, null, "'i32'", "'f32'", 
+			"'f64'", "'(i32)'", "'(f32)'", "'(f64)'"
 		};
 	}
 	private static final String[] _LITERAL_NAMES = makeLiteralNames();
 	private static String[] makeSymbolicNames() {
 		return new String[] {
-			null, null, null, "IF", "EQUAL", "END_BLOCK", "TYPE_AS", "READ_TYPE", 
-			"PRE_ASSIGN", "ASSIGN", "WRITE", "READ", "SUB", "ADD", "MUL", "DIV", 
-			"ID", "INT", "FLOAT32", "FLOAT64", "INT_KEYWORD", "FLOAT32_KEYWORD", 
-			"FLOAT64_KEYWORD", "CONV_INT", "CONV_FLOAT32", "CONV_FLOAT64", "NEWLINE", 
-			"WS"
+			null, null, null, "IF", "REPEAT", "EQUAL", "GREATER", "LESS", "NOT_EQUAL", 
+			"LESS_EQUAL", "GREATER_EQUAL", "END_BLOCK", "TYPE_AS", "READ_TYPE", "PRE_ASSIGN", 
+			"ASSIGN", "WRITE", "READ", "SUB", "ADD", "MUL", "DIV", "ID", "INT", "FLOAT32", 
+			"FLOAT64", "INT_KEYWORD", "FLOAT32_KEYWORD", "FLOAT64_KEYWORD", "CONV_INT", 
+			"CONV_FLOAT32", "CONV_FLOAT64", "NEWLINE", "WS"
 		};
 	}
 	private static final String[] _SYMBOLIC_NAMES = makeSymbolicNames();
@@ -124,7 +128,7 @@ public class BeguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(16);
+			setState(20);
 			block();
 			}
 		}
@@ -171,27 +175,27 @@ public class BeguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(24);
+			setState(28);
 			_errHandler.sync(this);
 			_la = _input.LA(1);
-			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IF) | (1L << PRE_ASSIGN) | (1L << WRITE) | (1L << READ) | (1L << ID) | (1L << NEWLINE))) != 0)) {
+			while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IF) | (1L << REPEAT) | (1L << PRE_ASSIGN) | (1L << WRITE) | (1L << READ) | (1L << ID) | (1L << NEWLINE))) != 0)) {
 				{
 				{
-				setState(19);
+				setState(23);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
-				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IF) | (1L << PRE_ASSIGN) | (1L << WRITE) | (1L << READ) | (1L << ID))) != 0)) {
+				if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << IF) | (1L << REPEAT) | (1L << PRE_ASSIGN) | (1L << WRITE) | (1L << READ) | (1L << ID))) != 0)) {
 					{
-					setState(18);
+					setState(22);
 					statement();
 					}
 				}
 
-				setState(21);
+				setState(25);
 				match(NEWLINE);
 				}
 				}
-				setState(26);
+				setState(30);
 				_errHandler.sync(this);
 				_la = _input.LA(1);
 			}
@@ -232,6 +236,25 @@ public class BeguageParser extends Parser {
 		@Override
 		public void exitRule(ParseTreeListener listener) {
 			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).exitRead(this);
+		}
+	}
+	public static class RepeatContext extends StatementContext {
+		public TerminalNode REPEAT() { return getToken(BeguageParser.REPEAT, 0); }
+		public ConditionContext condition() {
+			return getRuleContext(ConditionContext.class,0);
+		}
+		public BlockRepeatContext blockRepeat() {
+			return getRuleContext(BlockRepeatContext.class,0);
+		}
+		public TerminalNode END_BLOCK() { return getToken(BeguageParser.END_BLOCK, 0); }
+		public RepeatContext(StatementContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).enterRepeat(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).exitRepeat(this);
 		}
 	}
 	public static class ReassignContext extends StatementContext {
@@ -304,70 +327,84 @@ public class BeguageParser extends Parser {
 		StatementContext _localctx = new StatementContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_statement);
 		try {
-			setState(45);
+			setState(54);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case IF:
 				_localctx = new IfContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(27);
+				setState(31);
 				match(IF);
-				setState(28);
+				setState(32);
 				condition();
-				setState(29);
+				setState(33);
 				blockIf();
-				setState(30);
+				setState(34);
+				match(END_BLOCK);
+				}
+				break;
+			case REPEAT:
+				_localctx = new RepeatContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(36);
+				match(REPEAT);
+				setState(37);
+				condition();
+				setState(38);
+				blockRepeat();
+				setState(39);
 				match(END_BLOCK);
 				}
 				break;
 			case WRITE:
 				_localctx = new WriteContext(_localctx);
-				enterOuterAlt(_localctx, 2);
+				enterOuterAlt(_localctx, 3);
 				{
-				setState(32);
+				setState(41);
 				match(WRITE);
-				setState(33);
+				setState(42);
 				match(ID);
 				}
 				break;
 			case PRE_ASSIGN:
 				_localctx = new AssignContext(_localctx);
-				enterOuterAlt(_localctx, 3);
+				enterOuterAlt(_localctx, 4);
 				{
-				setState(34);
+				setState(43);
 				match(PRE_ASSIGN);
-				setState(35);
+				setState(44);
 				match(ID);
-				setState(36);
+				setState(45);
 				match(ASSIGN);
-				setState(37);
+				setState(46);
 				expression0(0);
 				}
 				break;
 			case ID:
 				_localctx = new ReassignContext(_localctx);
-				enterOuterAlt(_localctx, 4);
+				enterOuterAlt(_localctx, 5);
 				{
-				setState(38);
+				setState(47);
 				match(ID);
-				setState(39);
+				setState(48);
 				match(ASSIGN);
-				setState(40);
+				setState(49);
 				expression0(0);
 				}
 				break;
 			case READ:
 				_localctx = new ReadContext(_localctx);
-				enterOuterAlt(_localctx, 5);
+				enterOuterAlt(_localctx, 6);
 				{
-				setState(41);
+				setState(50);
 				match(READ);
-				setState(42);
+				setState(51);
 				match(ID);
-				setState(43);
+				setState(52);
 				match(TYPE_AS);
-				setState(44);
+				setState(53);
 				match(READ_TYPE);
 				}
 				break;
@@ -410,7 +447,46 @@ public class BeguageParser extends Parser {
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(47);
+			setState(56);
+			block();
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class BlockRepeatContext extends ParserRuleContext {
+		public BlockContext block() {
+			return getRuleContext(BlockContext.class,0);
+		}
+		public BlockRepeatContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_blockRepeat; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).enterBlockRepeat(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).exitBlockRepeat(this);
+		}
+	}
+
+	public final BlockRepeatContext blockRepeat() throws RecognitionException {
+		BlockRepeatContext _localctx = new BlockRepeatContext(_ctx, getState());
+		enterRule(_localctx, 8, RULE_blockRepeat);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(58);
 			block();
 			}
 		}
@@ -426,17 +502,60 @@ public class BeguageParser extends Parser {
 	}
 
 	public static class ConditionContext extends ParserRuleContext {
+		public ConditionalExpressionContext conditionalExpression() {
+			return getRuleContext(ConditionalExpressionContext.class,0);
+		}
 		public ConditionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
 		@Override public int getRuleIndex() { return RULE_condition; }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).enterCondition(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).exitCondition(this);
+		}
+	}
+
+	public final ConditionContext condition() throws RecognitionException {
+		ConditionContext _localctx = new ConditionContext(_ctx, getState());
+		enterRule(_localctx, 10, RULE_condition);
+		try {
+			enterOuterAlt(_localctx, 1);
+			{
+			setState(60);
+			match(T__0);
+			setState(61);
+			conditionalExpression();
+			setState(62);
+			match(T__1);
+			}
+		}
+		catch (RecognitionException re) {
+			_localctx.exception = re;
+			_errHandler.reportError(this, re);
+			_errHandler.recover(this, re);
+		}
+		finally {
+			exitRule();
+		}
+		return _localctx;
+	}
+
+	public static class ConditionalExpressionContext extends ParserRuleContext {
+		public ConditionalExpressionContext(ParserRuleContext parent, int invokingState) {
+			super(parent, invokingState);
+		}
+		@Override public int getRuleIndex() { return RULE_conditionalExpression; }
 	 
-		public ConditionContext() { }
-		public void copyFrom(ConditionContext ctx) {
+		public ConditionalExpressionContext() { }
+		public void copyFrom(ConditionalExpressionContext ctx) {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class EqualContext extends ConditionContext {
+	public static class EqualContext extends ConditionalExpressionContext {
 		public List<Expression0Context> expression0() {
 			return getRuleContexts(Expression0Context.class);
 		}
@@ -444,7 +563,7 @@ public class BeguageParser extends Parser {
 			return getRuleContext(Expression0Context.class,i);
 		}
 		public TerminalNode EQUAL() { return getToken(BeguageParser.EQUAL, 0); }
-		public EqualContext(ConditionContext ctx) { copyFrom(ctx); }
+		public EqualContext(ConditionalExpressionContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
 			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).enterEqual(this);
@@ -454,24 +573,176 @@ public class BeguageParser extends Parser {
 			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).exitEqual(this);
 		}
 	}
+	public static class NotEqualContext extends ConditionalExpressionContext {
+		public List<Expression0Context> expression0() {
+			return getRuleContexts(Expression0Context.class);
+		}
+		public Expression0Context expression0(int i) {
+			return getRuleContext(Expression0Context.class,i);
+		}
+		public TerminalNode NOT_EQUAL() { return getToken(BeguageParser.NOT_EQUAL, 0); }
+		public NotEqualContext(ConditionalExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).enterNotEqual(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).exitNotEqual(this);
+		}
+	}
+	public static class GreaterEqualContext extends ConditionalExpressionContext {
+		public List<Expression0Context> expression0() {
+			return getRuleContexts(Expression0Context.class);
+		}
+		public Expression0Context expression0(int i) {
+			return getRuleContext(Expression0Context.class,i);
+		}
+		public TerminalNode GREATER_EQUAL() { return getToken(BeguageParser.GREATER_EQUAL, 0); }
+		public GreaterEqualContext(ConditionalExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).enterGreaterEqual(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).exitGreaterEqual(this);
+		}
+	}
+	public static class LessContext extends ConditionalExpressionContext {
+		public List<Expression0Context> expression0() {
+			return getRuleContexts(Expression0Context.class);
+		}
+		public Expression0Context expression0(int i) {
+			return getRuleContext(Expression0Context.class,i);
+		}
+		public TerminalNode LESS() { return getToken(BeguageParser.LESS, 0); }
+		public LessContext(ConditionalExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).enterLess(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).exitLess(this);
+		}
+	}
+	public static class LessEqualContext extends ConditionalExpressionContext {
+		public List<Expression0Context> expression0() {
+			return getRuleContexts(Expression0Context.class);
+		}
+		public Expression0Context expression0(int i) {
+			return getRuleContext(Expression0Context.class,i);
+		}
+		public TerminalNode LESS_EQUAL() { return getToken(BeguageParser.LESS_EQUAL, 0); }
+		public LessEqualContext(ConditionalExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).enterLessEqual(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).exitLessEqual(this);
+		}
+	}
+	public static class GreaterContext extends ConditionalExpressionContext {
+		public List<Expression0Context> expression0() {
+			return getRuleContexts(Expression0Context.class);
+		}
+		public Expression0Context expression0(int i) {
+			return getRuleContext(Expression0Context.class,i);
+		}
+		public TerminalNode GREATER() { return getToken(BeguageParser.GREATER, 0); }
+		public GreaterContext(ConditionalExpressionContext ctx) { copyFrom(ctx); }
+		@Override
+		public void enterRule(ParseTreeListener listener) {
+			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).enterGreater(this);
+		}
+		@Override
+		public void exitRule(ParseTreeListener listener) {
+			if ( listener instanceof BeguageListener ) ((BeguageListener)listener).exitGreater(this);
+		}
+	}
 
-	public final ConditionContext condition() throws RecognitionException {
-		ConditionContext _localctx = new ConditionContext(_ctx, getState());
-		enterRule(_localctx, 8, RULE_condition);
+	public final ConditionalExpressionContext conditionalExpression() throws RecognitionException {
+		ConditionalExpressionContext _localctx = new ConditionalExpressionContext(_ctx, getState());
+		enterRule(_localctx, 12, RULE_conditionalExpression);
 		try {
-			_localctx = new EqualContext(_localctx);
-			enterOuterAlt(_localctx, 1);
-			{
-			setState(49);
-			match(T__0);
-			setState(50);
-			expression0(0);
-			setState(51);
-			match(EQUAL);
-			setState(52);
-			expression0(0);
-			setState(53);
-			match(T__1);
+			setState(88);
+			_errHandler.sync(this);
+			switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
+			case 1:
+				_localctx = new EqualContext(_localctx);
+				enterOuterAlt(_localctx, 1);
+				{
+				setState(64);
+				expression0(0);
+				setState(65);
+				match(EQUAL);
+				setState(66);
+				expression0(0);
+				}
+				break;
+			case 2:
+				_localctx = new NotEqualContext(_localctx);
+				enterOuterAlt(_localctx, 2);
+				{
+				setState(68);
+				expression0(0);
+				setState(69);
+				match(NOT_EQUAL);
+				setState(70);
+				expression0(0);
+				}
+				break;
+			case 3:
+				_localctx = new GreaterContext(_localctx);
+				enterOuterAlt(_localctx, 3);
+				{
+				setState(72);
+				expression0(0);
+				setState(73);
+				match(GREATER);
+				setState(74);
+				expression0(0);
+				}
+				break;
+			case 4:
+				_localctx = new LessContext(_localctx);
+				enterOuterAlt(_localctx, 4);
+				{
+				setState(76);
+				expression0(0);
+				setState(77);
+				match(LESS);
+				setState(78);
+				expression0(0);
+				}
+				break;
+			case 5:
+				_localctx = new LessEqualContext(_localctx);
+				enterOuterAlt(_localctx, 5);
+				{
+				setState(80);
+				expression0(0);
+				setState(81);
+				match(LESS_EQUAL);
+				setState(82);
+				expression0(0);
+				}
+				break;
+			case 6:
+				_localctx = new GreaterEqualContext(_localctx);
+				enterOuterAlt(_localctx, 6);
+				{
+				setState(84);
+				expression0(0);
+				setState(85);
+				match(GREATER_EQUAL);
+				setState(86);
+				expression0(0);
+				}
+				break;
 			}
 		}
 		catch (RecognitionException re) {
@@ -556,8 +827,8 @@ public class BeguageParser extends Parser {
 		int _parentState = getState();
 		Expression0Context _localctx = new Expression0Context(_ctx, _parentState);
 		Expression0Context _prevctx = _localctx;
-		int _startState = 10;
-		enterRecursionRule(_localctx, 10, RULE_expression0, _p);
+		int _startState = 14;
+		enterRecursionRule(_localctx, 14, RULE_expression0, _p);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
@@ -567,30 +838,30 @@ public class BeguageParser extends Parser {
 			_ctx = _localctx;
 			_prevctx = _localctx;
 
-			setState(56);
+			setState(91);
 			expression1(0);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(66);
+			setState(101);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(64);
+					setState(99);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,4,_ctx) ) {
 					case 1:
 						{
 						_localctx = new SubContext(new Expression0Context(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression0);
-						setState(58);
+						setState(93);
 						if (!(precpred(_ctx, 3))) throw new FailedPredicateException(this, "precpred(_ctx, 3)");
-						setState(59);
+						setState(94);
 						match(SUB);
-						setState(60);
+						setState(95);
 						expression1(0);
 						}
 						break;
@@ -598,20 +869,20 @@ public class BeguageParser extends Parser {
 						{
 						_localctx = new AddContext(new Expression0Context(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression0);
-						setState(61);
+						setState(96);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(62);
+						setState(97);
 						match(ADD);
-						setState(63);
+						setState(98);
 						expression1(0);
 						}
 						break;
 					}
 					} 
 				}
-				setState(68);
+				setState(103);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,5,_ctx);
 			}
 			}
 		}
@@ -697,8 +968,8 @@ public class BeguageParser extends Parser {
 		int _parentState = getState();
 		Expression1Context _localctx = new Expression1Context(_ctx, _parentState);
 		Expression1Context _prevctx = _localctx;
-		int _startState = 12;
-		enterRecursionRule(_localctx, 12, RULE_expression1, _p);
+		int _startState = 16;
+		enterRecursionRule(_localctx, 16, RULE_expression1, _p);
 		try {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
@@ -708,30 +979,30 @@ public class BeguageParser extends Parser {
 			_ctx = _localctx;
 			_prevctx = _localctx;
 
-			setState(70);
+			setState(105);
 			expression2();
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(80);
+			setState(115);
 			_errHandler.sync(this);
-			_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+			_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
 				if ( _alt==1 ) {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(78);
+					setState(113);
 					_errHandler.sync(this);
-					switch ( getInterpreter().adaptivePredict(_input,5,_ctx) ) {
+					switch ( getInterpreter().adaptivePredict(_input,6,_ctx) ) {
 					case 1:
 						{
 						_localctx = new MulContext(new Expression1Context(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression1);
-						setState(72);
+						setState(107);
 						if (!(precpred(_ctx, 2))) throw new FailedPredicateException(this, "precpred(_ctx, 2)");
-						setState(73);
+						setState(108);
 						match(MUL);
-						setState(74);
+						setState(109);
 						expression2();
 						}
 						break;
@@ -739,20 +1010,20 @@ public class BeguageParser extends Parser {
 						{
 						_localctx = new DivContext(new Expression1Context(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expression1);
-						setState(75);
+						setState(110);
 						if (!(precpred(_ctx, 1))) throw new FailedPredicateException(this, "precpred(_ctx, 1)");
-						setState(76);
+						setState(111);
 						match(DIV);
-						setState(77);
+						setState(112);
 						expression2();
 						}
 						break;
 					}
 					} 
 				}
-				setState(82);
+				setState(117);
 				_errHandler.sync(this);
-				_alt = getInterpreter().adaptivePredict(_input,6,_ctx);
+				_alt = getInterpreter().adaptivePredict(_input,7,_ctx);
 			}
 			}
 		}
@@ -888,16 +1159,16 @@ public class BeguageParser extends Parser {
 
 	public final Expression2Context expression2() throws RecognitionException {
 		Expression2Context _localctx = new Expression2Context(_ctx, getState());
-		enterRule(_localctx, 14, RULE_expression2);
+		enterRule(_localctx, 18, RULE_expression2);
 		try {
-			setState(97);
+			setState(132);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case ID:
 				_localctx = new IdContext(_localctx);
 				enterOuterAlt(_localctx, 1);
 				{
-				setState(83);
+				setState(118);
 				match(ID);
 				}
 				break;
@@ -905,7 +1176,7 @@ public class BeguageParser extends Parser {
 				_localctx = new Float64Context(_localctx);
 				enterOuterAlt(_localctx, 2);
 				{
-				setState(84);
+				setState(119);
 				match(FLOAT64);
 				}
 				break;
@@ -913,7 +1184,7 @@ public class BeguageParser extends Parser {
 				_localctx = new Float32Context(_localctx);
 				enterOuterAlt(_localctx, 3);
 				{
-				setState(85);
+				setState(120);
 				match(FLOAT32);
 				}
 				break;
@@ -921,7 +1192,7 @@ public class BeguageParser extends Parser {
 				_localctx = new IntContext(_localctx);
 				enterOuterAlt(_localctx, 4);
 				{
-				setState(86);
+				setState(121);
 				match(INT);
 				}
 				break;
@@ -929,9 +1200,9 @@ public class BeguageParser extends Parser {
 				_localctx = new To_intContext(_localctx);
 				enterOuterAlt(_localctx, 5);
 				{
-				setState(87);
+				setState(122);
 				match(CONV_INT);
-				setState(88);
+				setState(123);
 				expression2();
 				}
 				break;
@@ -939,9 +1210,9 @@ public class BeguageParser extends Parser {
 				_localctx = new To_float64Context(_localctx);
 				enterOuterAlt(_localctx, 6);
 				{
-				setState(89);
+				setState(124);
 				match(CONV_FLOAT64);
-				setState(90);
+				setState(125);
 				expression2();
 				}
 				break;
@@ -949,9 +1220,9 @@ public class BeguageParser extends Parser {
 				_localctx = new To_float32Context(_localctx);
 				enterOuterAlt(_localctx, 7);
 				{
-				setState(91);
+				setState(126);
 				match(CONV_FLOAT32);
-				setState(92);
+				setState(127);
 				expression2();
 				}
 				break;
@@ -959,11 +1230,11 @@ public class BeguageParser extends Parser {
 				_localctx = new ParContext(_localctx);
 				enterOuterAlt(_localctx, 8);
 				{
-				setState(93);
+				setState(128);
 				match(T__0);
-				setState(94);
+				setState(129);
 				expression0(0);
-				setState(95);
+				setState(130);
 				match(T__1);
 				}
 				break;
@@ -984,9 +1255,9 @@ public class BeguageParser extends Parser {
 
 	public boolean sempred(RuleContext _localctx, int ruleIndex, int predIndex) {
 		switch (ruleIndex) {
-		case 5:
+		case 7:
 			return expression0_sempred((Expression0Context)_localctx, predIndex);
-		case 6:
+		case 8:
 			return expression1_sempred((Expression1Context)_localctx, predIndex);
 		}
 		return true;
@@ -1011,32 +1282,42 @@ public class BeguageParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\35f\4\2\t\2\4\3\t"+
-		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\3\2\3\3\5\3\26"+
-		"\n\3\3\3\7\3\31\n\3\f\3\16\3\34\13\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3"+
-		"\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\5\4\60\n\4\3\5\3\5\3\6\3\6\3\6"+
-		"\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\3\7\7\7C\n\7\f\7\16\7F\13"+
-		"\7\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\7\bQ\n\b\f\b\16\bT\13\b\3\t\3\t"+
-		"\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\5\td\n\t\3\t\2\4\f\16"+
-		"\n\2\4\6\b\n\f\16\20\2\2\2n\2\22\3\2\2\2\4\32\3\2\2\2\6/\3\2\2\2\b\61"+
-		"\3\2\2\2\n\63\3\2\2\2\f9\3\2\2\2\16G\3\2\2\2\20c\3\2\2\2\22\23\5\4\3\2"+
-		"\23\3\3\2\2\2\24\26\5\6\4\2\25\24\3\2\2\2\25\26\3\2\2\2\26\27\3\2\2\2"+
-		"\27\31\7\34\2\2\30\25\3\2\2\2\31\34\3\2\2\2\32\30\3\2\2\2\32\33\3\2\2"+
-		"\2\33\5\3\2\2\2\34\32\3\2\2\2\35\36\7\5\2\2\36\37\5\n\6\2\37 \5\b\5\2"+
-		" !\7\7\2\2!\60\3\2\2\2\"#\7\f\2\2#\60\7\22\2\2$%\7\n\2\2%&\7\22\2\2&\'"+
-		"\7\13\2\2\'\60\5\f\7\2()\7\22\2\2)*\7\13\2\2*\60\5\f\7\2+,\7\r\2\2,-\7"+
-		"\22\2\2-.\7\b\2\2.\60\7\t\2\2/\35\3\2\2\2/\"\3\2\2\2/$\3\2\2\2/(\3\2\2"+
-		"\2/+\3\2\2\2\60\7\3\2\2\2\61\62\5\4\3\2\62\t\3\2\2\2\63\64\7\3\2\2\64"+
-		"\65\5\f\7\2\65\66\7\6\2\2\66\67\5\f\7\2\678\7\4\2\28\13\3\2\2\29:\b\7"+
-		"\1\2:;\5\16\b\2;D\3\2\2\2<=\f\5\2\2=>\7\16\2\2>C\5\16\b\2?@\f\4\2\2@A"+
-		"\7\17\2\2AC\5\16\b\2B<\3\2\2\2B?\3\2\2\2CF\3\2\2\2DB\3\2\2\2DE\3\2\2\2"+
-		"E\r\3\2\2\2FD\3\2\2\2GH\b\b\1\2HI\5\20\t\2IR\3\2\2\2JK\f\4\2\2KL\7\20"+
-		"\2\2LQ\5\20\t\2MN\f\3\2\2NO\7\21\2\2OQ\5\20\t\2PJ\3\2\2\2PM\3\2\2\2QT"+
-		"\3\2\2\2RP\3\2\2\2RS\3\2\2\2S\17\3\2\2\2TR\3\2\2\2Ud\7\22\2\2Vd\7\25\2"+
-		"\2Wd\7\24\2\2Xd\7\23\2\2YZ\7\31\2\2Zd\5\20\t\2[\\\7\33\2\2\\d\5\20\t\2"+
-		"]^\7\32\2\2^d\5\20\t\2_`\7\3\2\2`a\5\f\7\2ab\7\4\2\2bd\3\2\2\2cU\3\2\2"+
-		"\2cV\3\2\2\2cW\3\2\2\2cX\3\2\2\2cY\3\2\2\2c[\3\2\2\2c]\3\2\2\2c_\3\2\2"+
-		"\2d\21\3\2\2\2\n\25\32/BDPRc";
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3#\u0089\4\2\t\2\4"+
+		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
+		"\13\3\2\3\2\3\3\5\3\32\n\3\3\3\7\3\35\n\3\f\3\16\3 \13\3\3\4\3\4\3\4\3"+
+		"\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4"+
+		"\3\4\3\4\5\49\n\4\3\5\3\5\3\6\3\6\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3\b\3\b"+
+		"\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3"+
+		"\b\3\b\5\b[\n\b\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\3\t\7\tf\n\t\f\t\16\t"+
+		"i\13\t\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\7\nt\n\n\f\n\16\nw\13\n\3\13"+
+		"\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\3\13\5\13"+
+		"\u0087\n\13\3\13\2\4\20\22\f\2\4\6\b\n\f\16\20\22\24\2\2\2\u0095\2\26"+
+		"\3\2\2\2\4\36\3\2\2\2\68\3\2\2\2\b:\3\2\2\2\n<\3\2\2\2\f>\3\2\2\2\16Z"+
+		"\3\2\2\2\20\\\3\2\2\2\22j\3\2\2\2\24\u0086\3\2\2\2\26\27\5\4\3\2\27\3"+
+		"\3\2\2\2\30\32\5\6\4\2\31\30\3\2\2\2\31\32\3\2\2\2\32\33\3\2\2\2\33\35"+
+		"\7\"\2\2\34\31\3\2\2\2\35 \3\2\2\2\36\34\3\2\2\2\36\37\3\2\2\2\37\5\3"+
+		"\2\2\2 \36\3\2\2\2!\"\7\5\2\2\"#\5\f\7\2#$\5\b\5\2$%\7\r\2\2%9\3\2\2\2"+
+		"&\'\7\6\2\2\'(\5\f\7\2()\5\n\6\2)*\7\r\2\2*9\3\2\2\2+,\7\22\2\2,9\7\30"+
+		"\2\2-.\7\20\2\2./\7\30\2\2/\60\7\21\2\2\609\5\20\t\2\61\62\7\30\2\2\62"+
+		"\63\7\21\2\2\639\5\20\t\2\64\65\7\23\2\2\65\66\7\30\2\2\66\67\7\16\2\2"+
+		"\679\7\17\2\28!\3\2\2\28&\3\2\2\28+\3\2\2\28-\3\2\2\28\61\3\2\2\28\64"+
+		"\3\2\2\29\7\3\2\2\2:;\5\4\3\2;\t\3\2\2\2<=\5\4\3\2=\13\3\2\2\2>?\7\3\2"+
+		"\2?@\5\16\b\2@A\7\4\2\2A\r\3\2\2\2BC\5\20\t\2CD\7\7\2\2DE\5\20\t\2E[\3"+
+		"\2\2\2FG\5\20\t\2GH\7\n\2\2HI\5\20\t\2I[\3\2\2\2JK\5\20\t\2KL\7\b\2\2"+
+		"LM\5\20\t\2M[\3\2\2\2NO\5\20\t\2OP\7\t\2\2PQ\5\20\t\2Q[\3\2\2\2RS\5\20"+
+		"\t\2ST\7\13\2\2TU\5\20\t\2U[\3\2\2\2VW\5\20\t\2WX\7\f\2\2XY\5\20\t\2Y"+
+		"[\3\2\2\2ZB\3\2\2\2ZF\3\2\2\2ZJ\3\2\2\2ZN\3\2\2\2ZR\3\2\2\2ZV\3\2\2\2"+
+		"[\17\3\2\2\2\\]\b\t\1\2]^\5\22\n\2^g\3\2\2\2_`\f\5\2\2`a\7\24\2\2af\5"+
+		"\22\n\2bc\f\4\2\2cd\7\25\2\2df\5\22\n\2e_\3\2\2\2eb\3\2\2\2fi\3\2\2\2"+
+		"ge\3\2\2\2gh\3\2\2\2h\21\3\2\2\2ig\3\2\2\2jk\b\n\1\2kl\5\24\13\2lu\3\2"+
+		"\2\2mn\f\4\2\2no\7\26\2\2ot\5\24\13\2pq\f\3\2\2qr\7\27\2\2rt\5\24\13\2"+
+		"sm\3\2\2\2sp\3\2\2\2tw\3\2\2\2us\3\2\2\2uv\3\2\2\2v\23\3\2\2\2wu\3\2\2"+
+		"\2x\u0087\7\30\2\2y\u0087\7\33\2\2z\u0087\7\32\2\2{\u0087\7\31\2\2|}\7"+
+		"\37\2\2}\u0087\5\24\13\2~\177\7!\2\2\177\u0087\5\24\13\2\u0080\u0081\7"+
+		" \2\2\u0081\u0087\5\24\13\2\u0082\u0083\7\3\2\2\u0083\u0084\5\20\t\2\u0084"+
+		"\u0085\7\4\2\2\u0085\u0087\3\2\2\2\u0086x\3\2\2\2\u0086y\3\2\2\2\u0086"+
+		"z\3\2\2\2\u0086{\3\2\2\2\u0086|\3\2\2\2\u0086~\3\2\2\2\u0086\u0080\3\2"+
+		"\2\2\u0086\u0082\3\2\2\2\u0087\25\3\2\2\2\13\31\368Zegsu\u0086";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

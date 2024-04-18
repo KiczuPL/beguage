@@ -274,26 +274,46 @@ class LLVMGenerator {
         return text;
     }
 
-    public static void ifstart() {
+    public static void whileStart() {
+        br++;
+        main_text += "br label %loop" + br + "\n";
+        main_text += "loop" + br + ":\n";
+        brstack.push(br);
+    }
+
+    public static void whileBodyStart() {
+        main_text += "br i1 %" + (reg - 1) + ", label %body" + br + ", label %exit" + br+ "\n";
+        main_text += "body" + br + ":\n";
+        brstack.push(br);
+    }
+
+    public static void whileEnd() {
+        int b = brstack.pop();
+        main_text += "br label %loop" + b + "\n";
+        main_text += "exit" + b + ":\n";
+    }
+
+    public static void ifStart() {
         br++;
         main_text += "br i1 %" + (reg - 1) + ", label %true" + br + ", label %false" + br + "\n";
         main_text += "true" + br + ":\n";
         brstack.push(br);
     }
 
-    public static void ifend() {
+    public static void ifEnd() {
         int b = brstack.pop();
+
         main_text += "br label %false" + b + "\n";
         main_text += "false" + b + ":\n";
     }
 
-    public static void icmp(VariableOrValue right, VariableOrValue left) {
-        main_text += "%" + reg + " = icmp eq " + left.type.llvmType + " " + left.nameOrValue + ", " + right.getNameOrValue() + "\n";
+    public static void icmp(VariableOrValue left, VariableOrValue right, ComparisonType comparisonType) {
+        main_text += "%" + reg + " = icmp " +(comparisonType==ComparisonType.EQUAL || comparisonType == ComparisonType.NOTEQUAL ? "" : "s") + comparisonType.llvmComparisonName + " " + left.type.llvmType + " " + left.nameOrValue + ", " + right.getNameOrValue() + "\n";
         reg++;
     }
 
-    public static void fcmp(VariableOrValue left, VariableOrValue right) {
-        main_text += "%" + reg + " = fcmp oeq " + left.type.llvmType + " " + left.nameOrValue + ", " + right.getNameOrValue() + "\n";
+    public static void fcmp(VariableOrValue left, VariableOrValue right, ComparisonType comparisonType) {
+        main_text += "%" + reg + " = fcmp o" + comparisonType.llvmComparisonName + " " + left.type.llvmType + " " + left.nameOrValue + ", " + right.getNameOrValue() + "\n";
         reg++;
     }
 }

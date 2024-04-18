@@ -40,6 +40,18 @@ public interface BeguageListener extends ParseTreeListener {
 	 */
 	void exitIf(BeguageParser.IfContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code repeat}
+	 * labeled alternative in {@link BeguageParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterRepeat(BeguageParser.RepeatContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code repeat}
+	 * labeled alternative in {@link BeguageParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitRepeat(BeguageParser.RepeatContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code write}
 	 * labeled alternative in {@link BeguageParser#statement}.
 	 * @param ctx the parse tree
@@ -98,17 +110,97 @@ public interface BeguageListener extends ParseTreeListener {
 	 */
 	void exitBlockIf(BeguageParser.BlockIfContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link BeguageParser#blockRepeat}.
+	 * @param ctx the parse tree
+	 */
+	void enterBlockRepeat(BeguageParser.BlockRepeatContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BeguageParser#blockRepeat}.
+	 * @param ctx the parse tree
+	 */
+	void exitBlockRepeat(BeguageParser.BlockRepeatContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BeguageParser#condition}.
+	 * @param ctx the parse tree
+	 */
+	void enterCondition(BeguageParser.ConditionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BeguageParser#condition}.
+	 * @param ctx the parse tree
+	 */
+	void exitCondition(BeguageParser.ConditionContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code equal}
-	 * labeled alternative in {@link BeguageParser#condition}.
+	 * labeled alternative in {@link BeguageParser#conditionalExpression}.
 	 * @param ctx the parse tree
 	 */
 	void enterEqual(BeguageParser.EqualContext ctx);
 	/**
 	 * Exit a parse tree produced by the {@code equal}
-	 * labeled alternative in {@link BeguageParser#condition}.
+	 * labeled alternative in {@link BeguageParser#conditionalExpression}.
 	 * @param ctx the parse tree
 	 */
 	void exitEqual(BeguageParser.EqualContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code notEqual}
+	 * labeled alternative in {@link BeguageParser#conditionalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterNotEqual(BeguageParser.NotEqualContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code notEqual}
+	 * labeled alternative in {@link BeguageParser#conditionalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitNotEqual(BeguageParser.NotEqualContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code greater}
+	 * labeled alternative in {@link BeguageParser#conditionalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterGreater(BeguageParser.GreaterContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code greater}
+	 * labeled alternative in {@link BeguageParser#conditionalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitGreater(BeguageParser.GreaterContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code less}
+	 * labeled alternative in {@link BeguageParser#conditionalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterLess(BeguageParser.LessContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code less}
+	 * labeled alternative in {@link BeguageParser#conditionalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitLess(BeguageParser.LessContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code lessEqual}
+	 * labeled alternative in {@link BeguageParser#conditionalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterLessEqual(BeguageParser.LessEqualContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code lessEqual}
+	 * labeled alternative in {@link BeguageParser#conditionalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitLessEqual(BeguageParser.LessEqualContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code greaterEqual}
+	 * labeled alternative in {@link BeguageParser#conditionalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void enterGreaterEqual(BeguageParser.GreaterEqualContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code greaterEqual}
+	 * labeled alternative in {@link BeguageParser#conditionalExpression}.
+	 * @param ctx the parse tree
+	 */
+	void exitGreaterEqual(BeguageParser.GreaterEqualContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code single0}
 	 * labeled alternative in {@link BeguageParser#expression0}.

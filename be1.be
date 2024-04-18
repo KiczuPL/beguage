@@ -1,8 +1,10 @@
 
-let liczbaf be 3 - 2 - 1 + 1 + 1 * 5 / 2
-show liczbaf
+provide x as i32
+let liczba be 5
 
-if( 2 == ((2+2)/2))
-    let liczba be 5
+go(liczba != -5)
     show liczba
+    liczba be liczba - 1
 end
+
+

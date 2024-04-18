@@ -7,17 +7,16 @@ import java.util.Stack;
 public class LLVMActions extends BeguageBaseListener {
     HashMap<String, VariableOrValue> variables = new HashMap<>();
     Stack<VariableOrValue> stack = new Stack<>();
-    static int BUFFER_SIZE = 16;
 
 
     @Override
     public void enterBlockIf(BeguageParser.BlockIfContext ctx) {
-        LLVMGenerator.ifstart();
+        LLVMGenerator.ifStart();
     }
 
     @Override
     public void exitBlockIf(BeguageParser.BlockIfContext ctx) {
-        LLVMGenerator.ifend();
+        LLVMGenerator.ifEnd();
     }
 
     @Override
@@ -28,10 +27,95 @@ public class LLVMActions extends BeguageBaseListener {
             error(ctx.getStart().getLine(), "comparing different types, please cast them to the same type");
         }
         if (left.type == VarType.FLOAT32 || left.type == VarType.FLOAT64) {
-            LLVMGenerator.fcmp(left, right);
+            LLVMGenerator.fcmp(left, right, ComparisonType.EQUAL);
         } else if (left.type == VarType.INT) {
-            LLVMGenerator.icmp(left, right);
+            LLVMGenerator.icmp(left, right, ComparisonType.EQUAL);
         }
+    }
+
+    @Override
+    public void exitNotEqual(BeguageParser.NotEqualContext ctx) {
+        VariableOrValue right = stack.pop();
+        VariableOrValue left = stack.pop();
+        if (left.type != right.type) {
+            error(ctx.getStart().getLine(), "comparing different types, please cast them to the same type");
+        }
+        if (left.type == VarType.FLOAT32 || left.type == VarType.FLOAT64) {
+            LLVMGenerator.fcmp(left, right, ComparisonType.NOTEQUAL);
+        } else if (left.type == VarType.INT) {
+            LLVMGenerator.icmp(left, right, ComparisonType.NOTEQUAL);
+        }
+    }
+
+    @Override
+    public void exitGreater(BeguageParser.GreaterContext ctx) {
+        VariableOrValue right = stack.pop();
+        VariableOrValue left = stack.pop();
+        if (left.type != right.type) {
+            error(ctx.getStart().getLine(), "comparing different types, please cast them to the same type");
+        }
+        if (left.type == VarType.FLOAT32 || left.type == VarType.FLOAT64) {
+            LLVMGenerator.fcmp(left, right, ComparisonType.GREATER);
+        } else if (left.type == VarType.INT) {
+            LLVMGenerator.icmp(left, right, ComparisonType.GREATER);
+        }
+    }
+
+    @Override
+    public void exitLess(BeguageParser.LessContext ctx) {
+        VariableOrValue right = stack.pop();
+        VariableOrValue left = stack.pop();
+        if (left.type != right.type) {
+            error(ctx.getStart().getLine(), "comparing different types, please cast them to the same type");
+        }
+        if (left.type == VarType.FLOAT32 || left.type == VarType.FLOAT64) {
+            LLVMGenerator.fcmp(left, right, ComparisonType.LESS);
+        } else if (left.type == VarType.INT) {
+            LLVMGenerator.icmp(left, right, ComparisonType.LESS);
+        }
+    }
+
+    @Override
+    public void exitGreaterEqual(BeguageParser.GreaterEqualContext ctx) {
+        VariableOrValue right = stack.pop();
+        VariableOrValue left = stack.pop();
+        if (left.type != right.type) {
+            error(ctx.getStart().getLine(), "comparing different types, please cast them to the same type");
+        }
+        if (left.type == VarType.FLOAT32 || left.type == VarType.FLOAT64) {
+            LLVMGenerator.fcmp(left, right, ComparisonType.GREATEREQUAL);
+        } else if (left.type == VarType.INT) {
+            LLVMGenerator.icmp(left, right, ComparisonType.GREATEREQUAL);
+        }
+    }
+
+    @Override
+    public void exitLessEqual(BeguageParser.LessEqualContext ctx) {
+        VariableOrValue right = stack.pop();
+        VariableOrValue left = stack.pop();
+        if (left.type != right.type) {
+            error(ctx.getStart().getLine(), "comparing different types, please cast them to the same type");
+        }
+        if (left.type == VarType.FLOAT32 || left.type == VarType.FLOAT64) {
+            LLVMGenerator.fcmp(left, right, ComparisonType.LESSEQUAL);
+        } else if (left.type == VarType.INT) {
+            LLVMGenerator.icmp(left, right, ComparisonType.LESSEQUAL);
+        }
+    }
+
+    @Override
+    public void enterRepeat(BeguageParser.RepeatContext ctx) {
+        LLVMGenerator.whileStart();
+    }
+
+    @Override
+    public void enterBlockRepeat(BeguageParser.BlockRepeatContext ctx) {
+        LLVMGenerator.whileBodyStart();
+    }
+
+    @Override
+    public void exitBlockRepeat(BeguageParser.BlockRepeatContext ctx) {
+        LLVMGenerator.whileEnd();
     }
 
 
@@ -265,59 +349,3 @@ public class LLVMActions extends BeguageBaseListener {
 
 }
 
-enum VarType {
-    INT("i32"), FLOAT32("float"), FLOAT64("double"), UNRECOGNIZED("");
-    public final String llvmType;
-
-    VarType(String llvmType) {
-        this.llvmType = llvmType;
-    }
-
-    static VarType fromString(String s) {
-        switch (s) {
-            case "i32" -> {
-                return INT;
-            }
-            case "f32" -> {
-                return FLOAT32;
-            }
-            case "f64" -> {
-                return FLOAT64;
-            }
-            default -> {
-                return UNRECOGNIZED;
-            }
-        }
-    }
-}
-
-class VariableOrValue {
-    public String nameOrValue;
-    public VarType type;
-
-    public VariableOrValue(String nameOrValue, VarType type) {
-        this.nameOrValue = nameOrValue;
-        this.type = type;
-        if (type == VarType.FLOAT32) {
-            this.nameOrValue = LLVMUtils.floatStrToLLVM(nameOrValue);
-        } else if (type == VarType.FLOAT64) {
-            this.nameOrValue = LLVMUtils.doubleStrToLLVM(nameOrValue);
-        }
-    }
-
-    public String getNameOrValue() {
-        return nameOrValue;
-    }
-
-    public void setNameOrValue(String nameOrValue) {
-        this.nameOrValue = nameOrValue;
-    }
-
-    public VarType getType() {
-        return type;
-    }
-
-    public void setType(VarType type) {
-        this.type = type;
-    }
-}
