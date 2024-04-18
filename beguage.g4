@@ -1,6 +1,6 @@
 grammar Beguage;
 
-program: block
+program: ( (statement|function)? NEWLINE )*
 ;
 
 block: ( statement? NEWLINE )*
@@ -8,7 +8,7 @@ block: ( statement? NEWLINE )*
 
 statement: IF condition blockIf END_BLOCK 	        #if
     | REPEAT condition blockRepeat END_BLOCK		#repeat
-    | WRITE ID 		                                #write
+    | WRITE expression0 		                    #write
 	| PRE_ASSIGN ID ASSIGN expression0	            #assign
 	| ID ASSIGN expression0		                    #reassign
 	| READ ID TYPE_AS READ_TYPE    	                #read
@@ -83,7 +83,7 @@ ID:   ('a'..'z'|'A'..'Z')+;
 
 INT:  '-'? '0'..'9'+;
 
-FLOAT32:  '-'? '0'..'9'+ ((('.' '0'..'9'*)? '\\.'? 'f') | (('.' '0'..'9'+) 'f'?));
+FLOAT32:  '-'? '0'..'9'+ ((('\\.' '0'..'9'*)? '\\.'? 'f') | (('\\.' '0'..'9'+) 'f'?));
 FLOAT64:  '-'? '0'..'9'+ (('.' '0'..'9'+ 'd') | 'd');
 
 INT_KEYWORD: 'i32';
