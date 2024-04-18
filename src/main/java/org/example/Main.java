@@ -16,15 +16,13 @@ public class Main {
             ANTLRFileStream input = new ANTLRFileStream(args[0]);
 
             BeguageLexer lexer = buildLexer(input);
-
             CommonTokenStream tokens = new CommonTokenStream(lexer);
             BeguageParser parser = new BeguageParser(tokens);
-
             if (parser.getNumberOfSyntaxErrors() > 0) {
                 System.exit(-1);
             }
             ParseTree tree = parser.program();
-
+            
             ParseTreeWalker walker = new ParseTreeWalker();
             walker.walk(new LLVMActions(), tree);
             System.exit(0);

@@ -145,6 +145,18 @@ public interface BeguageListener extends ParseTreeListener {
 	 */
 	void exitSub(BeguageParser.SubContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code div}
+	 * labeled alternative in {@link BeguageParser#expression1}.
+	 * @param ctx the parse tree
+	 */
+	void enterDiv(BeguageParser.DivContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code div}
+	 * labeled alternative in {@link BeguageParser#expression1}.
+	 * @param ctx the parse tree
+	 */
+	void exitDiv(BeguageParser.DivContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code single1}
 	 * labeled alternative in {@link BeguageParser#expression1}.
 	 * @param ctx the parse tree
@@ -168,18 +180,6 @@ public interface BeguageListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitMul(BeguageParser.MulContext ctx);
-	/**
-	 * Enter a parse tree produced by the {@code div}
-	 * labeled alternative in {@link BeguageParser#expression1}.
-	 * @param ctx the parse tree
-	 */
-	void enterDiv(BeguageParser.DivContext ctx);
-	/**
-	 * Exit a parse tree produced by the {@code div}
-	 * labeled alternative in {@link BeguageParser#expression1}.
-	 * @param ctx the parse tree
-	 */
-	void exitDiv(BeguageParser.DivContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code id}
 	 * labeled alternative in {@link BeguageParser#expression2}.

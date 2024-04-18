@@ -159,6 +159,18 @@ public class BeguageBaseListener implements BeguageListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDiv(BeguageParser.DivContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDiv(BeguageParser.DivContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterSingle1(BeguageParser.Single1Context ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -178,18 +190,6 @@ public class BeguageBaseListener implements BeguageListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitMul(BeguageParser.MulContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterDiv(BeguageParser.DivContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitDiv(BeguageParser.DivContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
