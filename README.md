@@ -15,6 +15,7 @@ Projekt tego języka został wykonany na potrzeby zaliczenia kursu 1DI2152 - Ję
 Przód kompilatora, obejmujący analizę leksykalną i składniową, został wykonany przy użyciu generatora analizatorów ANTLR. Z wynikowego drzewa składniowego (AST) została wygenerowana reprezentacja pośrednia (IR) zgodna ze specyfikacją LLVM. Optymalizacja reprezentacji pośredniej, a także generowanie kodu maszynowego jest realizowane przy użyciu narzędzi dostępnych w LLVM.
 
 Projekt został podzielony na dwa etapy, wykorzystując technologie ANTLR i LLVM.
+
 **Etap 1. Proste operacje na zmiennych (15 pkt)**
 Wymagania minimalne (10 pkt):
 - obsługa dwóch typów zmiennych: całkowite, rzeczywiste, **DONE**
