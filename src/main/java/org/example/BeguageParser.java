@@ -294,7 +294,9 @@ public class BeguageParser extends Parser {
 	}
 	public static class WriteContext extends StatementContext {
 		public TerminalNode WRITE() { return getToken(BeguageParser.WRITE, 0); }
-		public TerminalNode ID() { return getToken(BeguageParser.ID, 0); }
+		public Expression0Context expression0() {
+			return getRuleContext(Expression0Context.class,0);
+		}
 		public WriteContext(StatementContext ctx) { copyFrom(ctx); }
 		@Override
 		public void enterRule(ParseTreeListener listener) {
@@ -365,7 +367,7 @@ public class BeguageParser extends Parser {
 				setState(41);
 				match(WRITE);
 				setState(42);
-				match(ID);
+				expression0(0);
 				}
 				break;
 			case PRE_ASSIGN:
@@ -1297,8 +1299,8 @@ public class BeguageParser extends Parser {
 		"\3\2\2\2\30\32\5\6\4\2\31\30\3\2\2\2\31\32\3\2\2\2\32\33\3\2\2\2\33\35"+
 		"\7\"\2\2\34\31\3\2\2\2\35 \3\2\2\2\36\34\3\2\2\2\36\37\3\2\2\2\37\5\3"+
 		"\2\2\2 \36\3\2\2\2!\"\7\5\2\2\"#\5\f\7\2#$\5\b\5\2$%\7\r\2\2%9\3\2\2\2"+
-		"&\'\7\6\2\2\'(\5\f\7\2()\5\n\6\2)*\7\r\2\2*9\3\2\2\2+,\7\22\2\2,9\7\30"+
-		"\2\2-.\7\20\2\2./\7\30\2\2/\60\7\21\2\2\609\5\20\t\2\61\62\7\30\2\2\62"+
+		"&\'\7\6\2\2\'(\5\f\7\2()\5\n\6\2)*\7\r\2\2*9\3\2\2\2+,\7\22\2\2,9\5\20"+
+		"\t\2-.\7\20\2\2./\7\30\2\2/\60\7\21\2\2\609\5\20\t\2\61\62\7\30\2\2\62"+
 		"\63\7\21\2\2\639\5\20\t\2\64\65\7\23\2\2\65\66\7\30\2\2\66\67\7\16\2\2"+
 		"\679\7\17\2\28!\3\2\2\28&\3\2\2\28+\3\2\2\28-\3\2\2\28\61\3\2\2\28\64"+
 		"\3\2\2\29\7\3\2\2\2:;\5\4\3\2;\t\3\2\2\2<=\5\4\3\2=\13\3\2\2\2>?\7\3\2"+
