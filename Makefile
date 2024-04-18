@@ -6,7 +6,7 @@ ANTLR=./antlr4-4.9.2-complete.jar
 all: generate compile test
 
 generate:
-	java -jar $(ANTLR) -o output Beguage.g4
+	java -jar $(ANTLR) -o src/main/java/org/example -package org.example Beguage.g4
 
 compile:
 	javac -cp $(ANTLR):output:. Main.java
