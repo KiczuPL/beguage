@@ -23,7 +23,7 @@ Wymagania minimalne (10 pkt):
 - obsługa podstawowych operacji artmetycznych, **DONE**
 - wskazywanie błędów podczas analizy leksykalno-składniowej﻿. **DONE**
 
-**Rozszerzenia:**
+Rozszerzenia:
 - obsługa zmiennych tablicowych (3 pkt),
 - obsługa macierzy liczb (5 pkt),
 - obsługa wartości logicznych (2pkt za AND, OR, XOR, NEG, 5p. jeżeli zaimplementowane zostanie short-circuit boolean evaluation),
@@ -36,7 +36,7 @@ Wymagania minimalne (10 pkt):
 - możliwość tworzenia funkcji, **DONE**
 - obsługa zasięgu zmiennych (lokalne i globalne) **DONE**
 
-**Rozszerzenia:**
+Rozszerzenia:
 - obsługa struktur (5 pkt)﻿,
 - obsługa klas (5 pkt),
 - dynamiczne typowanie (wartości w pudełkach) (5 pkt),
