@@ -51,11 +51,13 @@ Wymagania minimalne (10 pkt):
 ### Deklaracja zmiennych:
 Co wyróżnia *Beguage* to m.in. wyjątkowa deklaracja zmiennych: `let x be 10`.
 - `let` jest predeklaracją zmiennej - w ten sposób rozpoczyna się deklarację,
-- `be` jest równoznaczne ze znakiem "=".
+- `be` jest operatorem przypisania "=".
 
 ### Operacja wczytania zmiennej z klawiatury:
-Operacja wczytania wartości z klawiatury: `provide x`
-- `provide` jest analogiczną instrukcją do `input`, `cin >>`.
+Operacja wczytania wartości z klawiatury: `provide x as i32/f32/f64`
+- `provide` jest analogiczną instrukcją do `input`, `cin >>`,
+- `as` jest operatorem który określa typ zmiennej,
+- `i32/f32/f64` typy obsługiwanych zmiennych - należy wybrać jedno
 
 ### Operacja wypisania zmiennej:
 Operacja wypisania zmiennej odbywa przy pomocy instrukcji: `show x`
@@ -71,19 +73,19 @@ Operacja wypisania zmiennej odbywa przy pomocy instrukcji: `show x`
 ```
 let x be 10
 let y be f2.5
-provide z
+provide z as i32
 show x + y
 show x - y
 show x * y
 show x / y
-show x + y * x / y
+show x + y * x / z 
 ```
 ### Wynik powyższego kodu:
-oczekawianie na input _
+oczekawianie na input _ <-- 5
 ```
 12.5
 7.5
 25.0
 4.0
-20.0
+15.0
 ```
