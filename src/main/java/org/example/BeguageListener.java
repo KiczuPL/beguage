@@ -28,6 +28,66 @@ public interface BeguageListener extends ParseTreeListener {
 	 */
 	void exitBlock(BeguageParser.BlockContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link BeguageParser#function}.
+	 * @param ctx the parse tree
+	 */
+	void enterFunction(BeguageParser.FunctionContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BeguageParser#function}.
+	 * @param ctx the parse tree
+	 */
+	void exitFunction(BeguageParser.FunctionContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BeguageParser#fParameters}.
+	 * @param ctx the parse tree
+	 */
+	void enterFParameters(BeguageParser.FParametersContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BeguageParser#fParameters}.
+	 * @param ctx the parse tree
+	 */
+	void exitFParameters(BeguageParser.FParametersContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BeguageParser#fParameter}.
+	 * @param ctx the parse tree
+	 */
+	void enterFParameter(BeguageParser.FParameterContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BeguageParser#fParameter}.
+	 * @param ctx the parse tree
+	 */
+	void exitFParameter(BeguageParser.FParameterContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BeguageParser#fName}.
+	 * @param ctx the parse tree
+	 */
+	void enterFName(BeguageParser.FNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BeguageParser#fName}.
+	 * @param ctx the parse tree
+	 */
+	void exitFName(BeguageParser.FNameContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BeguageParser#fReturnType}.
+	 * @param ctx the parse tree
+	 */
+	void enterFReturnType(BeguageParser.FReturnTypeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BeguageParser#fReturnType}.
+	 * @param ctx the parse tree
+	 */
+	void exitFReturnType(BeguageParser.FReturnTypeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BeguageParser#fBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterFBlock(BeguageParser.FBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BeguageParser#fBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitFBlock(BeguageParser.FBlockContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code if}
 	 * labeled alternative in {@link BeguageParser#statement}.
 	 * @param ctx the parse tree
@@ -99,6 +159,18 @@ public interface BeguageListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitRead(BeguageParser.ReadContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code return}
+	 * labeled alternative in {@link BeguageParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterReturn(BeguageParser.ReturnContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code return}
+	 * labeled alternative in {@link BeguageParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitReturn(BeguageParser.ReturnContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link BeguageParser#blockIf}.
 	 * @param ctx the parse tree

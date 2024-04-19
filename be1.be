@@ -1,4 +1,5 @@
 
-show 3 + 3 - 3
+let x be 3
 
+show x + 1
 

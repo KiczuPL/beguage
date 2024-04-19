@@ -11,7 +11,7 @@ class LLVMGenerator {
     static String main_text = "";
     static int reg = 1;
     static int br = 0;
-
+    static String buffer = "";
     static Stack<Integer> brstack = new Stack<Integer>();
 
 
@@ -142,44 +142,56 @@ class LLVMGenerator {
 
 
     /////////////////////ALLOCATE, ASSIGN AND LOAD////////////////////////////////////////
-    public static void declare(VariableOrValue v) {
+    public static void declare(VariableOrValue v, boolean global) {
         switch (v.type) {
-            case INT -> declare_i32(v.getNameOrValue());
-            case FLOAT32 -> declare_f32(v.getNameOrValue());
-            case FLOAT64 -> declare_f64(v.getNameOrValue());
+            case INT -> declare_i32(v.getNameOrValue(), global);
+            case FLOAT32 -> declare_f32(v.getNameOrValue(), global);
+            case FLOAT64 -> declare_f64(v.getNameOrValue(), global);
             default -> {
             }
         }
     }
 
-    public static void declare_i32(String id) {
-        main_text += "%" + id + " = alloca i32\n";
+    public static void declare_i32(String id, boolean global) {
+        if (global) {
+            header_text += "@" + id + " = global i32 0\n";
+        } else {
+            buffer += "%" + id + " = alloca i32\n";
+        }
     }
 
     public static void assign_i32(String id, String value) {
-        main_text += "store i32 " + value + ", i32* %" + id + "\n";
+        main_text += "store i32 " + value + ", i32* " + id + "\n";
     }
 
-    public static void declare_f32(String id) {
-        main_text += "%" + id + " = alloca float, align 4\n";
+    public static void declare_f32(String id, boolean global) {
+        if (global) {
+            header_text += "@" + id + " = global float, align 4 0\n";
+        } else {
+            buffer += "%" + id + " = alloca float, align 4\n";
+        }
     }
 
     public static void assign_f32(String id, String value) {
         String v = LLVMUtils.floatStrToLLVM(value);
-        main_text += "store float " + v + ", float* %" + id + "\n";
+        main_text += "store float " + v + ", float* " + id + "\n";
     }
 
-    public static void declare_f64(String id) {
-        main_text += "%" + id + " = alloca double\n";
+    public static void declare_f64(String id, boolean global) {
+        if (global) {
+            header_text += "@" + id + " = global double 0\n";
+        } else {
+            buffer += "%" + id + " = alloca double\n";
+        }
     }
 
     public static void assign_f64(String id, String value) {
         String v = LLVMUtils.doubleStrToLLVM(value);
-        main_text += "store double " + v + ", double* %" + id + "\n";
+        main_text += "store double " + v + ", double* " + id + "\n";
     }
 
     public static void load(VariableOrValue v) {
-        main_text += "%" + reg + " = load " + v.type.llvmType + ", " + v.type.llvmType + "* %" + v.getNameOrValue() + "\n";
+        main_text += "%" + reg + " = load " + v.type.llvmType + ", " + v.type.llvmType + "* " + v.getNameOrValue() + "\n";
         reg++;
     }
 
@@ -231,7 +243,7 @@ class LLVMGenerator {
     }
 
     public static void scanf_int(String id) {
-        main_text += "%" + reg + " = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @scanf_str_int, i32 0, i32 0), i32* %" + id + ")\n";
+        main_text += "%" + reg + " = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @scanf_str_int, i32 0, i32 0), i32* " + id + ")\n";
         reg++;
         main_text += "%" + reg + " = call i32 @getchar()\n";
         reg++;
@@ -239,12 +251,12 @@ class LLVMGenerator {
     }
 
     public static void scanf_float32(String id) {
-        main_text += "%" + reg + " = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @scanf_str_float32, i32 0, i32 0), float* %" + id + ")\n";
+        main_text += "%" + reg + " = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @scanf_str_float32, i32 0, i32 0), float* " + id + ")\n";
         reg++;
     }
 
     public static void scanf_float64(String id) {
-        main_text += "%" + reg + " = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @scanf_str_float64, i32 0, i32 0), double* %" + id + ")\n";
+        main_text += "%" + reg + " = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @scanf_str_float64, i32 0, i32 0), double* " + id + ")\n";
         reg++;
     }
     /////////////////////SCANF AND PRINTF////////////////////////////////////////
@@ -308,13 +320,17 @@ class LLVMGenerator {
     }
 
     public static void icmp(VariableOrValue left, VariableOrValue right, ComparisonType comparisonType) {
-        main_text += "%" + reg + " = icmp " +(comparisonType==ComparisonType.EQUAL || comparisonType == ComparisonType.NOTEQUAL ? "" : "s") + comparisonType.llvmComparisonName + " " + left.type.llvmType + " " + left.nameOrValue + ", " + right.getNameOrValue() + "\n";
+        main_text += "%" + reg + " = icmp " + (comparisonType == ComparisonType.EQUAL || comparisonType == ComparisonType.NOTEQUAL ? "" : "s") + comparisonType.llvmComparisonName + " " + left.type.llvmType + " " + left.nameOrValue + ", " + right.getNameOrValue() + "\n";
         reg++;
     }
 
     public static void fcmp(VariableOrValue left, VariableOrValue right, ComparisonType comparisonType) {
         main_text += "%" + reg + " = fcmp o" + comparisonType.llvmComparisonName + " " + left.type.llvmType + " " + left.nameOrValue + ", " + right.getNameOrValue() + "\n";
         reg++;
+    }
+
+    private static String getRangeSign(boolean global) {
+        return global ? "@" : "%";
     }
 }
 
