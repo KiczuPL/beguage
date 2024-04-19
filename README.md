@@ -170,28 +170,23 @@ fn(<parameters>) -> i32/f32/f64
   <Fblock>
 end
 ```
-- `fn` rozpoczęcie deklaracji funkcji,
+- `fn` rozpoczęcie funkcji,
 - `<parameters>` parametry, które moża wprowadzić do funkcji,
 - `<Fblock>` blok funkcji,
-- `end` zakończenie pętli.
+- `end` zakończenie funkcji.
 
 **Przykładowy kod:**
 ```
-let x be 0
-go(x < 5)
-    x be x + 1
-    show x
+fn sq (f32 x, f32 y) -> i32
+    return ((x * y) * y)
 end
+
+show sq(2f, 3.5f)
 
 ```
 **Wynik powyższego kodu:**
 ```
-1
-2
-3
-4
-5
-6
+24,5
 ```
 
 ### Obsługiwane zasięgi zmiennych - z podziałem na zmienne lokalne i globalne:
