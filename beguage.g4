@@ -6,12 +6,24 @@ program: ( (statement|function)? NEWLINE )*
 block: ( statement? NEWLINE )*
  ;
 
+function: FUNCTION fName fParameters '->' fReturnType fBlock END_BLOCK;
+
+FUNCTION: 'fn';
+fParameters: '(' fParameter? (',' fParameter)* ')';
+fParameter: READ_TYPE ID;
+fName: ID;
+fReturnType: READ_TYPE;
+
+fBlock: block;
+RETURN: 'return';
+
 statement: IF condition blockIf END_BLOCK 	        #if
     | REPEAT condition blockRepeat END_BLOCK		#repeat
     | WRITE expression0 		                    #write
 	| PRE_ASSIGN ID ASSIGN expression0	            #assign
 	| ID ASSIGN expression0		                    #reassign
 	| READ ID TYPE_AS READ_TYPE    	                #read
+    | RETURN expression0                            #return
     ;
 
 blockIf: block;
@@ -28,7 +40,6 @@ conditionalExpression: expression0 EQUAL expression0   #equal
     | expression0 LESS_EQUAL expression0               #lessEqual
     | expression0 GREATER_EQUAL expression0            #greaterEqual
     ;
-
 
 IF: 'if';
 REPEAT: 'go';
@@ -56,6 +67,7 @@ expression1:  expression2			    #single1
       ;
 
 expression2: ID				                    #id
+	    | (ID '(' ((','? expression0)*) ')')    	#call
       | FLOAT64			                        #float64
       | FLOAT32			                        #float32
       | INT			                            #int
@@ -83,7 +95,7 @@ ID:   ('a'..'z'|'A'..'Z')+;
 
 INT:  '-'? '0'..'9'+;
 
-FLOAT32:  '-'? '0'..'9'+ ((('\\.' '0'..'9'*)? '\\.'? 'f') | (('\\.' '0'..'9'+) 'f'?));
+FLOAT32:  '-'? '0'..'9'+ ((('.' '0'..'9'*)? '.'? 'f') | (('.' '0'..'9'+) 'f'?));
 FLOAT64:  '-'? '0'..'9'+ (('.' '0'..'9'+ 'd') | 'd');
 
 INT_KEYWORD: 'i32';
