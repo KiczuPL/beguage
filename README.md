@@ -175,6 +175,25 @@ end
 - `<Fblock>` blok funkcji,
 - `end` zakończenie pętli.
 
-### Obsługiwane zasięgi zmiennych - z podziałem na zmienne lokalne i globalne
+**Przykładowy kod:**
+```
+let x be 0
+go(x < 5)
+    x be x + 1
+    show x
+end
+
+```
+**Wynik powyższego kodu:**
+```
+1
+2
+3
+4
+5
+6
+```
+
+### Obsługiwane zasięgi zmiennych - z podziałem na zmienne lokalne i globalne:
 - `global` zmienna globalna,
 - `local` zmienna lokalna.
