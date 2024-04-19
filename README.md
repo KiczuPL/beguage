@@ -162,3 +162,19 @@ end
 5
 6
 ```
+
+### Funkcje:
+Możliwość tworzenia funkcji odbywa się przy pomocy instrukcji:
+```
+fn(<parameters>) -> i32/f32/f64
+  <Fblock>
+end
+```
+- `fn` rozpoczęcie deklaracji funkcji,
+- `<parameters>` parametry, które moża wprowadzić do funkcji,
+- `<Fblock>` blok funkcji,
+- `end` zakończenie pętli.
+
+### Obsługiwane zasięgi zmiennych - z podziałem na zmienne lokalne i globalne
+- `global` zmienna globalna,
+- `local` zmienna lokalna.
