@@ -358,6 +358,18 @@ public interface BeguageListener extends ParseTreeListener {
 	 */
 	void exitId(BeguageParser.IdContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code call}
+	 * labeled alternative in {@link BeguageParser#expression2}.
+	 * @param ctx the parse tree
+	 */
+	void enterCall(BeguageParser.CallContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code call}
+	 * labeled alternative in {@link BeguageParser#expression2}.
+	 * @param ctx the parse tree
+	 */
+	void exitCall(BeguageParser.CallContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code float64}
 	 * labeled alternative in {@link BeguageParser#expression2}.
 	 * @param ctx the parse tree

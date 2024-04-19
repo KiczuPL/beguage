@@ -388,6 +388,18 @@ public class BeguageBaseListener implements BeguageListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterCall(BeguageParser.CallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCall(BeguageParser.CallContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterFloat64(BeguageParser.Float64Context ctx) { }
 	/**
 	 * {@inheritDoc}

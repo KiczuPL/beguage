@@ -1,12 +1,16 @@
 package org.example;
 
+import java.util.List;
+
 public class Function {
     String functionName;
     VarType returnType;
+    List<VariableOrValue> parameters;
 
-    public Function(String function, VarType fReturnType) {
+    public Function(String function, VarType fReturnType, List<VariableOrValue> fParameters) {
         this.functionName = function;
         this.returnType = fReturnType;
+        this.parameters = fParameters;
     }
 
     public String getFunctionName() {

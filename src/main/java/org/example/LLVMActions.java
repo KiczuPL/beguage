@@ -1,9 +1,6 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 
 public class LLVMActions extends BeguageBaseListener {
@@ -18,6 +15,29 @@ public class LLVMActions extends BeguageBaseListener {
 
 
     @Override
+    public void exitCall(BeguageParser.CallContext ctx) {
+        String ID = ctx.ID().getText();
+        if (!functions.containsKey(ID)) {
+            error(ctx.getStart().getLine(), "function not declared");
+        }
+        Function function = functions.get(ID);
+        int nParams = function.parameters.size();
+        if (nParams != stack.size()) {
+            error(ctx.getStart().getLine(), "wrong number of parameters");
+        }
+        LinkedList<VariableOrValue> params = new LinkedList<>();
+        for (int i = 0; i < nParams; i++) {
+            params.add(stack.pop());
+//            if (function.parameters.get(i).type != stack.get(i).type) {
+//                error(ctx.getStart().getLine(), "wrong parameter type");
+//            }
+        }
+
+        LLVMGenerator.callFunction(function, params);
+        stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), function.returnType));
+    }
+
+    @Override
     public void exitFParameter(BeguageParser.FParameterContext ctx) {
         String ID = ctx.ID().getText();
         VarType type = VarType.fromString(ctx.READ_TYPE().getText());
@@ -27,27 +47,32 @@ public class LLVMActions extends BeguageBaseListener {
     @Override
     public void exitReturn(BeguageParser.ReturnContext ctx) {
         VariableOrValue v = stack.pop();
+        Function fun = functions.get(functionName);
         if (v.type != fReturnType) {
-            LLVMGenerator.matchTypes(v, new VariableOrValue("", fReturnType));
+            LLVMGenerator.matchTypes(new VariableOrValue("", fReturnType),v);
             stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), fReturnType));
             v = stack.pop();
         }
-        //LLVMGenerator.functionReturn(v);
+        LLVMGenerator.functionReturn(v, fun);
     }
 
     @Override
     public void enterFBlock(BeguageParser.FBlockContext ctx) {
         global = false;
-        Function function = new Function(functionName, fReturnType);
+        Function function = new Function(functionName, fReturnType, fParameters);
         functions.put(functionName, function);
-        //LLVMGenerator.functionStart(function, fParameters);
+        fParameters.forEach((param) -> localNames.put("%" + param.nameOrValue, new VariableOrValue("%" + param.nameOrValue, param.type)));
+        LLVMGenerator.functionStart(function, fParameters);
     }
 
     @Override
     public void exitFBlock(BeguageParser.FBlockContext ctx) {
-        //LLVMGenerator.functionEnd();
+        LLVMGenerator.functionEnd();
         localNames = new HashMap<>();
         global = false;
+        functionName = null;
+        fReturnType = null;
+        fParameters = new ArrayList<>();
     }
 
     @Override
@@ -334,7 +359,8 @@ public class LLVMActions extends BeguageBaseListener {
             LLVMGenerator.load(globalNames.get("@" + ID));
             stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), globalNames.get("@" + ID).type));
         } else {
-            error(ctx.getStart().getLine(), "unknown variable " + ID);
+            if (functionName == null)
+                error(ctx.getStart().getLine(), "unknown variable " + ID);
         }
     }
 
@@ -417,6 +443,7 @@ public class LLVMActions extends BeguageBaseListener {
 
     @Override
     public void exitProgram(BeguageParser.ProgramContext ctx) {
+        LLVMGenerator.closeMain();
         System.out.println(LLVMGenerator.generate());
     }
 

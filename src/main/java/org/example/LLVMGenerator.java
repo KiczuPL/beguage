@@ -1,6 +1,8 @@
 package org.example;
 
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Stack;
 
 import static org.example.VarType.*;
@@ -8,10 +10,11 @@ import static org.example.VarType.*;
 class LLVMGenerator {
 
     static String header_text = "";
-    static String main_text = "";
-    static int reg = 1;
-    static int br = 0;
     static String buffer = "";
+    static int reg = 1;
+    static int regToBack = 1;
+    static int br = 0;
+    static String main_text = "";
     static Stack<Integer> brstack = new Stack<Integer>();
 
 
@@ -40,32 +43,32 @@ class LLVMGenerator {
     }
 
     static void f64_to_i32(String id) {
-        main_text += "%" + reg + " = fptosi double " + id + " to i32\n";
+        buffer += "%" + reg + " = fptosi double " + id + " to i32\n";
         reg++;
     }
 
     static void i32_to_f64(String id) {
-        main_text += "%" + reg + " = sitofp i32 " + id + " to double\n";
+        buffer += "%" + reg + " = sitofp i32 " + id + " to double\n";
         reg++;
     }
 
     static void f64_to_f32(String id) {
-        main_text += "%" + reg + " = fptrunc double " + id + " to float\n";
+        buffer += "%" + reg + " = fptrunc double " + id + " to float\n";
         reg++;
     }
 
     static void f32_to_f64(String id) {
-        main_text += "%" + reg + " = fext float " + id + " to double\n";
+        buffer += "%" + reg + " = fext float " + id + " to double\n";
         reg++;
     }
 
     static void i32_to_f32(String id) {
-        main_text += "%" + reg + " = sitofp i32 " + id + " to float\n";
+        buffer += "%" + reg + " = sitofp i32 " + id + " to float\n";
         reg++;
     }
 
     static void f32_to_i32(String id) {
-        main_text += "%" + reg + " = fptosi float " + id + " to i32\n";
+        buffer += "%" + reg + " = fptosi float " + id + " to i32\n";
         reg++;
     }
 
@@ -77,65 +80,65 @@ class LLVMGenerator {
     /////////////////////ARITHMETIC OPERATIONS////////////////////////////////////////
     //ADD
     static void add_i32(String val1, String val2) {
-        main_text += "%" + reg + " = add i32 " + val1 + ", " + val2 + "\n";
+        buffer += "%" + reg + " = add i32 " + val1 + ", " + val2 + "\n";
         reg++;
     }
 
     static void add_f32(String val1, String val2) {
-        main_text += "%" + reg + " = fadd float " + val1 + ", " + val2 + "\n";
+        buffer += "%" + reg + " = fadd float " + val1 + ", " + val2 + "\n";
         reg++;
     }
 
     static void add_f64(String val1, String val2) {
-        main_text += "%" + reg + " = fadd double " + val1 + ", " + val2 + "\n";
+        buffer += "%" + reg + " = fadd double " + val1 + ", " + val2 + "\n";
         reg++;
     }
 
     //SUB
     static void sub_i32(String val1, String val2) {
-        main_text += "%" + reg + " = sub i32 " + val1 + ", " + val2 + "\n";
+        buffer += "%" + reg + " = sub i32 " + val1 + ", " + val2 + "\n";
         reg++;
     }
 
     static void sub_f32(String val1, String val2) {
-        main_text += "%" + reg + " = fsub float " + val1 + ", " + val2 + "\n";
+        buffer += "%" + reg + " = fsub float " + val1 + ", " + val2 + "\n";
         reg++;
     }
 
     static void sub_f64(String val1, String val2) {
-        main_text += "%" + reg + " = fsub double " + val1 + ", " + val2 + "\n";
+        buffer += "%" + reg + " = fsub double " + val1 + ", " + val2 + "\n";
         reg++;
     }
 
     //MUL
     static void mul_i32(String val1, String val2) {
-        main_text += "%" + reg + " = mul i32 " + val1 + ", " + val2 + "\n";
+        buffer += "%" + reg + " = mul i32 " + val1 + ", " + val2 + "\n";
         reg++;
     }
 
     static void mul_f32(String val1, String val2) {
-        main_text += "%" + reg + " = fmul float " + val1 + ", " + val2 + "\n";
+        buffer += "%" + reg + " = fmul float " + val1 + ", " + val2 + "\n";
         reg++;
     }
 
     static void mul_f64(String val1, String val2) {
-        main_text += "%" + reg + " = fmul double " + val1 + ", " + val2 + "\n";
+        buffer += "%" + reg + " = fmul double " + val1 + ", " + val2 + "\n";
         reg++;
     }
 
     //DIV
     static void div_i32(String val1, String val2) {
-        main_text += "%" + reg + " = sdiv i32 " + val1 + ", " + val2 + "\n";
+        buffer += "%" + reg + " = sdiv i32 " + val1 + ", " + val2 + "\n";
         reg++;
     }
 
     static void div_f32(String val1, String val2) {
-        main_text += "%" + reg + " = fdiv float " + val1.replace("f", "") + ", " + val2.replace("f", "") + "\n";
+        buffer += "%" + reg + " = fdiv float " + val1.replace("f", "") + ", " + val2.replace("f", "") + "\n";
         reg++;
     }
 
     static void div_f64(String val1, String val2) {
-        main_text += "%" + reg + " = fdiv double " + val1 + ", " + val2 + "\n";
+        buffer += "%" + reg + " = fdiv double " + val1 + ", " + val2 + "\n";
         reg++;
     }
 /////////////////////ARITHMETIC OPERATIONS////////////////////////////////////////
@@ -161,7 +164,7 @@ class LLVMGenerator {
     }
 
     public static void assign_i32(String id, String value) {
-        main_text += "store i32 " + value + ", i32* " + id + "\n";
+        buffer += "store i32 " + value + ", i32* " + id + "\n";
     }
 
     public static void declare_f32(String id, boolean global) {
@@ -174,7 +177,7 @@ class LLVMGenerator {
 
     public static void assign_f32(String id, String value) {
         String v = LLVMUtils.floatStrToLLVM(value);
-        main_text += "store float " + v + ", float* " + id + "\n";
+        buffer += "store float " + v + ", float* " + id + "\n";
     }
 
     public static void declare_f64(String id, boolean global) {
@@ -187,11 +190,11 @@ class LLVMGenerator {
 
     public static void assign_f64(String id, String value) {
         String v = LLVMUtils.doubleStrToLLVM(value);
-        main_text += "store double " + v + ", double* " + id + "\n";
+        buffer += "store double " + v + ", double* " + id + "\n";
     }
 
     public static void load(VariableOrValue v) {
-        main_text += "%" + reg + " = load " + v.type.llvmType + ", " + v.type.llvmType + "* " + v.getNameOrValue() + "\n";
+        buffer += "%" + reg + " = load " + v.type.llvmType + ", " + v.type.llvmType + "* " + v.getNameOrValue() + "\n";
         reg++;
     }
 
@@ -210,25 +213,25 @@ class LLVMGenerator {
 
     /////////////////////SCANF AND PRINTF////////////////////////////////////////
     static void printf_int(String id) {
-//        main_text += "%" + reg + " = load i32, i32* " + id + "\n";
+//        buffer += "%" + reg + " = load i32, i32* " + id + "\n";
 //        reg++;
-        main_text += "%" + reg + " = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @printf_str_int, i32 0, i32 0), i32 " + (id) + ")\n";
+        buffer += "%" + reg + " = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @printf_str_int, i32 0, i32 0), i32 " + (id) + ")\n";
         reg++;
     }
 
     static void printf_float32(String id) {
-//        main_text += "%" + reg + " = load float, float* " + id + "\n";
+//        buffer += "%" + reg + " = load float, float* " + id + "\n";
 //        reg++;
-        main_text += "%" + reg + " = fpext float " + (id) + " to double\n";
+        buffer += "%" + reg + " = fpext float " + (id) + " to double\n";
         reg++;
-        main_text += "%" + reg + " = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @printf_str_float32, i32 0, i32 0), double %" + (reg - 1) + ")\n";
+        buffer += "%" + reg + " = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @printf_str_float32, i32 0, i32 0), double %" + (reg - 1) + ")\n";
         reg++;
     }
 
     static void printf_float64(String id) {
-//        main_text += "%" + reg + " = load double, double* " + id + "\n";
+//        buffer += "%" + reg + " = load double, double* " + id + "\n";
 //        reg++;
-        main_text += "%" + reg + " = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @printf_str_float64, i32 0, i32 0), double " + (id) + ")\n";
+        buffer += "%" + reg + " = call i32 (i8*, ...) @printf(i8* getelementptr inbounds ([5 x i8], [5 x i8]* @printf_str_float64, i32 0, i32 0), double " + (id) + ")\n";
         reg++;
     }
 
@@ -243,20 +246,20 @@ class LLVMGenerator {
     }
 
     public static void scanf_int(String id) {
-        main_text += "%" + reg + " = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @scanf_str_int, i32 0, i32 0), i32* " + id + ")\n";
+        buffer += "%" + reg + " = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @scanf_str_int, i32 0, i32 0), i32* " + id + ")\n";
         reg++;
-        main_text += "%" + reg + " = call i32 @getchar()\n";
+        buffer += "%" + reg + " = call i32 @getchar()\n";
         reg++;
 
     }
 
     public static void scanf_float32(String id) {
-        main_text += "%" + reg + " = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @scanf_str_float32, i32 0, i32 0), float* " + id + ")\n";
+        buffer += "%" + reg + " = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([3 x i8], [3 x i8]* @scanf_str_float32, i32 0, i32 0), float* " + id + ")\n";
         reg++;
     }
 
     public static void scanf_float64(String id) {
-        main_text += "%" + reg + " = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @scanf_str_float64, i32 0, i32 0), double* " + id + ")\n";
+        buffer += "%" + reg + " = call i32 (i8*, ...) @__isoc99_scanf(i8* getelementptr inbounds ([4 x i8], [4 x i8]* @scanf_str_float64, i32 0, i32 0), double* " + id + ")\n";
         reg++;
     }
     /////////////////////SCANF AND PRINTF////////////////////////////////////////
@@ -288,49 +291,96 @@ class LLVMGenerator {
 
     public static void whileStart() {
         br++;
-        main_text += "br label %loop" + br + "\n";
-        main_text += "loop" + br + ":\n";
+        buffer += "br label %loop" + br + "\n";
+        buffer += "loop" + br + ":\n";
         brstack.push(br);
     }
 
     public static void whileBodyStart() {
-        main_text += "br i1 %" + (reg - 1) + ", label %body" + br + ", label %exit" + br + "\n";
-        main_text += "body" + br + ":\n";
+        buffer += "br i1 %" + (reg - 1) + ", label %body" + br + ", label %exit" + br + "\n";
+        buffer += "body" + br + ":\n";
         brstack.push(br);
     }
 
     public static void whileEnd() {
         int b = brstack.pop();
-        main_text += "br label %loop" + b + "\n";
-        main_text += "exit" + b + ":\n";
+        buffer += "br label %loop" + b + "\n";
+        buffer += "exit" + b + ":\n";
     }
 
     public static void ifStart() {
         br++;
-        main_text += "br i1 %" + (reg - 1) + ", label %true" + br + ", label %false" + br + "\n";
-        main_text += "true" + br + ":\n";
+        buffer += "br i1 %" + (reg - 1) + ", label %true" + br + ", label %false" + br + "\n";
+        buffer += "true" + br + ":\n";
         brstack.push(br);
     }
 
     public static void ifEnd() {
         int b = brstack.pop();
 
-        main_text += "br label %false" + b + "\n";
-        main_text += "false" + b + ":\n";
+        buffer += "br label %false" + b + "\n";
+        buffer += "false" + b + ":\n";
     }
 
     public static void icmp(VariableOrValue left, VariableOrValue right, ComparisonType comparisonType) {
-        main_text += "%" + reg + " = icmp " + (comparisonType == ComparisonType.EQUAL || comparisonType == ComparisonType.NOTEQUAL ? "" : "s") + comparisonType.llvmComparisonName + " " + left.type.llvmType + " " + left.nameOrValue + ", " + right.getNameOrValue() + "\n";
+        buffer += "%" + reg + " = icmp " + (comparisonType == ComparisonType.EQUAL || comparisonType == ComparisonType.NOTEQUAL ? "" : "s") + comparisonType.llvmComparisonName + " " + left.type.llvmType + " " + left.nameOrValue + ", " + right.getNameOrValue() + "\n";
         reg++;
     }
 
     public static void fcmp(VariableOrValue left, VariableOrValue right, ComparisonType comparisonType) {
-        main_text += "%" + reg + " = fcmp o" + comparisonType.llvmComparisonName + " " + left.type.llvmType + " " + left.nameOrValue + ", " + right.getNameOrValue() + "\n";
+        buffer += "%" + reg + " = fcmp o" + comparisonType.llvmComparisonName + " " + left.type.llvmType + " " + left.nameOrValue + ", " + right.getNameOrValue() + "\n";
         reg++;
     }
 
     private static String getRangeSign(boolean global) {
         return global ? "@" : "%";
+    }
+
+    public static void functionStart(Function function, List<VariableOrValue> fParameters) {
+        main_text += buffer;
+        regToBack = reg;
+        buffer = "define " + function.returnType.llvmType + " @" + function.functionName + "(";
+        for (int i = 0; i < fParameters.size(); i++) {
+            buffer += fParameters.get(i).type.llvmType + "* %" + fParameters.get(i).nameOrValue;
+            if (i != fParameters.size() - 1) {
+                buffer += ", ";
+            }
+        }
+        buffer += ") nounwind {\n";
+        reg = 1;
+    }
+
+    public static void functionReturn(VariableOrValue v, Function function) {
+        buffer += "ret " + v.type.llvmType + " " + v.nameOrValue + "\n";
+    }
+
+    public static void functionEnd() {
+        //buffer += "ret " + buffer.substring(buffer.lastIndexOf("%")) + "\n";
+        buffer += "}\n";
+        header_text += buffer;
+        buffer = "";
+        reg = regToBack;
+    }
+
+    public static void closeMain() {
+        main_text += buffer;
+        buffer = "";
+    }
+
+    public static void callFunction(Function function, LinkedList<VariableOrValue> params) {
+        for (int i = 0; i < params.size(); i++) {
+            buffer += "%ptr_" + function.functionName + "_" + i + " = alloca float\n";
+            buffer += "store float " + params.get(i).getNameOrValue() + ", float* %ptr_" + function.functionName + "_" + i + "\n";
+        }
+        buffer += "%" + reg + " = call " + function.returnType.llvmType + " @" + function.functionName + "(";
+        for (int i = 0; i < params.size(); i++) {
+            buffer += params.get(i).type.llvmType + "* " + "%ptr_" + function.functionName + "_" + i;
+            if (i != params.size() - 1) {
+                buffer += ", ";
+            }
+        }
+        buffer += ")\n";
+        reg++;
     }
 }
 

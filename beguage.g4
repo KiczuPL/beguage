@@ -67,6 +67,7 @@ expression1:  expression2			    #single1
       ;
 
 expression2: ID				                    #id
+	    | (ID '(' ((','? expression0)*) ')')    	#call
       | FLOAT64			                        #float64
       | FLOAT32			                        #float32
       | INT			                            #int
@@ -94,7 +95,7 @@ ID:   ('a'..'z'|'A'..'Z')+;
 
 INT:  '-'? '0'..'9'+;
 
-FLOAT32:  '-'? '0'..'9'+ ((('\\.' '0'..'9'*)? '\\.'? 'f') | (('\\.' '0'..'9'+) 'f'?));
+FLOAT32:  '-'? '0'..'9'+ ((('.' '0'..'9'*)? '.'? 'f') | (('.' '0'..'9'+) 'f'?));
 FLOAT64:  '-'? '0'..'9'+ (('.' '0'..'9'+ 'd') | 'd');
 
 INT_KEYWORD: 'i32';
