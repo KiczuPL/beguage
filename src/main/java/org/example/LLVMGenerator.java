@@ -169,7 +169,7 @@ class LLVMGenerator {
 
     public static void declare_f32(String id, boolean global) {
         if (global) {
-            header_text += "@" + id + " = global float, align 4 0\n";
+            header_text += "@" + id + " = global float 0.0, align 4\n";
         } else {
             buffer += "%" + id + " = alloca float, align 4\n";
         }
