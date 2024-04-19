@@ -382,5 +382,37 @@ class LLVMGenerator {
         buffer += ")\n";
         reg++;
     }
+
+    public static void loadStructField(String instanceName, String fieldNumber, Struct struct, VarType fieldType) {
+        buffer += "%" + reg + " = getelementptr %" + struct.name + ", %" + struct.name + "* %" + instanceName + ", i32 0, i32 " + fieldNumber + "\n";
+        reg++;
+        buffer += "%" + reg + " = load " + fieldType.llvmType + ", " + fieldType.llvmType + "* %" + (reg - 1) + "\n";
+        reg++;
+    }
+
+    public static void reassignStructField(String instanceName, String fieldNumber, VariableOrValue value, Struct struct, VarType fieldType) {
+        buffer += "%field" + instanceName + fieldNumber + reg + " = getelementptr %" + struct.name + ", %" + struct.name + "* %" + instanceName + ", i32 0, i32 " + fieldNumber + "\n";
+        buffer += "store " + fieldType.llvmType + " " + value.getNameOrValue() + ", " + fieldType.llvmType + "* %field" + instanceName + fieldNumber + reg + "\n";
+    }
+
+    public static void declareStructInstance(Struct struct, String varName) {
+        buffer += "%" + varName + " = alloca %" + struct.getName() + "\n";
+    }
+
+    public static void declareStruct(Struct struct) {
+        String llvmCode = "%" + struct.name + " = type { ";
+        VarType[] fieldTypes = new VarType[struct.fields.size()];
+        for (StructField field : struct.fields.values()) {
+            fieldTypes[Integer.parseInt(field.number)] = field.type;
+        }
+        for (int i = 0; i < fieldTypes.length; i++) {
+            llvmCode += fieldTypes[i].llvmType;
+            if (i != fieldTypes.length - 1) {
+                llvmCode += ", ";
+            }
+        }
+        llvmCode += " }\n";
+        header_text += llvmCode;
+    }
 }
 

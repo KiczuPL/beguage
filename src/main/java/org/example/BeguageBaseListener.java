@@ -28,6 +28,54 @@ public class BeguageBaseListener implements BeguageListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterStructure(BeguageParser.StructureContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStructure(BeguageParser.StructureContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSName(BeguageParser.SNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSName(BeguageParser.SNameContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSBlock(BeguageParser.SBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSBlock(BeguageParser.SBlockContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSField(BeguageParser.SFieldContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSField(BeguageParser.SFieldContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterBlock(BeguageParser.BlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -136,6 +184,18 @@ public class BeguageBaseListener implements BeguageListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterDeclareStruct(BeguageParser.DeclareStructContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDeclareStruct(BeguageParser.DeclareStructContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterWrite(BeguageParser.WriteContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -155,6 +215,18 @@ public class BeguageBaseListener implements BeguageListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAssign(BeguageParser.AssignContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterReassignStructField(BeguageParser.ReassignStructFieldContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitReassignStructField(BeguageParser.ReassignStructFieldContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -383,6 +455,18 @@ public class BeguageBaseListener implements BeguageListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitId(BeguageParser.IdContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterStructFieldValue(BeguageParser.StructFieldValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitStructFieldValue(BeguageParser.StructFieldValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

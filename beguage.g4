@@ -1,11 +1,17 @@
 grammar Beguage;
 
-program: ( (statement|function)? NEWLINE )*
+program: ( (structure|statement|function|)? NEWLINE )*
 ;
+
+structure: STRUCTURE sName NEWLINE sBlock END_BLOCK;
+STRUCTURE: 'struct';
+sName: ID;
+sBlock: sField+;
+sField: READ_TYPE '->' ID NEWLINE;
+
 
 block: ( statement? NEWLINE )*
  ;
-
 function: FUNCTION fName fParameters '->' fReturnType fBlock END_BLOCK;
 
 FUNCTION: 'fn';
@@ -19,8 +25,10 @@ RETURN: 'return';
 
 statement: IF condition blockIf END_BLOCK 	        #if
     | REPEAT condition blockRepeat END_BLOCK		#repeat
+	| PRE_ASSIGN STRUCTURE ID ID	            #declareStruct
     | WRITE expression0 		                    #write
 	| PRE_ASSIGN ID ASSIGN expression0	            #assign
+	| ID '->' ID ASSIGN expression0		                    #reassignStructField
 	| ID ASSIGN expression0		                    #reassign
 	| READ ID TYPE_AS READ_TYPE    	                #read
     | RETURN expression0                            #return
@@ -67,7 +75,8 @@ expression1:  expression2			    #single1
       ;
 
 expression2: ID				                    #id
-	    | (ID '(' ((','? expression0)*) ')')    	#call
+      | ID '->' ID                              #structFieldValue
+	  | (ID '(' ((','? expression0)*) ')')    	#call
       | FLOAT64			                        #float64
       | FLOAT32			                        #float32
       | INT			                            #int

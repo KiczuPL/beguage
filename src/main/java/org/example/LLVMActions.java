@@ -11,8 +11,82 @@ public class LLVMActions extends BeguageBaseListener {
     String functionName;
     VarType fReturnType;
     List<VariableOrValue> fParameters = new ArrayList<>();
+    String structName;
+    List<VariableOrValue> structFields = new ArrayList<>();
+    Map<String, Struct> structures = new HashMap<>();
+    Map<String, Struct> structureInstances = new HashMap<>();
     boolean global;
 
+
+    @Override
+    public void exitSName(BeguageParser.SNameContext ctx) {
+        structName = ctx.ID().getText();
+    }
+
+    @Override
+    public void exitSField(BeguageParser.SFieldContext ctx) {
+        String ID = ctx.ID().getText();
+        VarType type = VarType.fromString(ctx.READ_TYPE().getText());
+        structFields.add(new VariableOrValue(ID, type));
+    }
+
+    @Override
+    public void exitStructure(BeguageParser.StructureContext ctx) {
+        Struct struct = new Struct(structName, structFields);
+        structures.put(structName, struct);
+        LLVMGenerator.declareStruct(struct);
+        structName = null;
+        structFields = new ArrayList<>();
+    }
+
+    @Override
+    public void exitDeclareStruct(BeguageParser.DeclareStructContext ctx) {
+        String structureName = ctx.ID(0).getText();
+        String structureInstanceName = ctx.ID(1).getText();
+//        if (!structures.containsKey(structureName)) {
+//            error(ctx.getStart().getLine(), "structure not defined");
+//        }
+        Struct struct = structures.get(structureName);
+        structureInstances.put(getRangedName(structureInstanceName), struct);
+        LLVMGenerator.declareStructInstance(struct, structureInstanceName);
+    }
+
+    @Override
+    public void exitReassignStructField(BeguageParser.ReassignStructFieldContext ctx) {
+        String instanceName = ctx.ID(0).getText();
+        String field = ctx.ID(1).getText();
+        if (!structureInstances.containsKey("@" + instanceName)) {
+            error(ctx.getStart().getLine(), "structure instance not declared");
+        }
+        Struct struct = structureInstances.get("@" + instanceName);
+        String fieldNumber = struct.fields.get(field).number;
+        VarType fieldType = struct.fields.get(field).type;
+        if (!struct.fields.containsKey(field)) {
+            error(ctx.getStart().getLine(), "field not declared");
+        }
+        VariableOrValue value = stack.pop();
+        if (value.type != struct.fields.get(field).type) {
+            error(ctx.getStart().getLine(), "wrong type");
+        }
+        LLVMGenerator.reassignStructField(instanceName, fieldNumber, value, struct, fieldType);
+    }
+
+    @Override
+    public void exitStructFieldValue(BeguageParser.StructFieldValueContext ctx) {
+        String instanceName = ctx.ID(0).getText();
+        String field = ctx.ID(1).getText();
+        if (!structureInstances.containsKey("@" + instanceName)) {
+            error(ctx.getStart().getLine(), "structure instance not declared");
+        }
+        Struct struct = structureInstances.get("@" + instanceName);
+        String fieldNumber = struct.fields.get(field).number;
+        VarType fieldType = struct.fields.get(field).type;
+        if (!struct.fields.containsKey(field)) {
+            error(ctx.getStart().getLine(), "field not declared");
+        }
+        LLVMGenerator.loadStructField(instanceName, fieldNumber, struct, fieldType);
+        stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), fieldType));
+    }
 
     @Override
     public void exitCall(BeguageParser.CallContext ctx) {
@@ -49,7 +123,7 @@ public class LLVMActions extends BeguageBaseListener {
         VariableOrValue v = stack.pop();
         Function fun = functions.get(functionName);
         if (v.type != fReturnType) {
-            LLVMGenerator.matchTypes(new VariableOrValue("", fReturnType),v);
+            LLVMGenerator.matchTypes(new VariableOrValue("", fReturnType), v);
             stack.push(new VariableOrValue("%" + (LLVMGenerator.reg - 1), fReturnType));
             v = stack.pop();
         }

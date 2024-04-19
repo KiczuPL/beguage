@@ -18,6 +18,46 @@ public interface BeguageListener extends ParseTreeListener {
 	 */
 	void exitProgram(BeguageParser.ProgramContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link BeguageParser#structure}.
+	 * @param ctx the parse tree
+	 */
+	void enterStructure(BeguageParser.StructureContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BeguageParser#structure}.
+	 * @param ctx the parse tree
+	 */
+	void exitStructure(BeguageParser.StructureContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BeguageParser#sName}.
+	 * @param ctx the parse tree
+	 */
+	void enterSName(BeguageParser.SNameContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BeguageParser#sName}.
+	 * @param ctx the parse tree
+	 */
+	void exitSName(BeguageParser.SNameContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BeguageParser#sBlock}.
+	 * @param ctx the parse tree
+	 */
+	void enterSBlock(BeguageParser.SBlockContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BeguageParser#sBlock}.
+	 * @param ctx the parse tree
+	 */
+	void exitSBlock(BeguageParser.SBlockContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BeguageParser#sField}.
+	 * @param ctx the parse tree
+	 */
+	void enterSField(BeguageParser.SFieldContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BeguageParser#sField}.
+	 * @param ctx the parse tree
+	 */
+	void exitSField(BeguageParser.SFieldContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link BeguageParser#block}.
 	 * @param ctx the parse tree
 	 */
@@ -112,6 +152,18 @@ public interface BeguageListener extends ParseTreeListener {
 	 */
 	void exitRepeat(BeguageParser.RepeatContext ctx);
 	/**
+	 * Enter a parse tree produced by the {@code declareStruct}
+	 * labeled alternative in {@link BeguageParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterDeclareStruct(BeguageParser.DeclareStructContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code declareStruct}
+	 * labeled alternative in {@link BeguageParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitDeclareStruct(BeguageParser.DeclareStructContext ctx);
+	/**
 	 * Enter a parse tree produced by the {@code write}
 	 * labeled alternative in {@link BeguageParser#statement}.
 	 * @param ctx the parse tree
@@ -135,6 +187,18 @@ public interface BeguageListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitAssign(BeguageParser.AssignContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code reassignStructField}
+	 * labeled alternative in {@link BeguageParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void enterReassignStructField(BeguageParser.ReassignStructFieldContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code reassignStructField}
+	 * labeled alternative in {@link BeguageParser#statement}.
+	 * @param ctx the parse tree
+	 */
+	void exitReassignStructField(BeguageParser.ReassignStructFieldContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code reassign}
 	 * labeled alternative in {@link BeguageParser#statement}.
@@ -357,6 +421,18 @@ public interface BeguageListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitId(BeguageParser.IdContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code structFieldValue}
+	 * labeled alternative in {@link BeguageParser#expression2}.
+	 * @param ctx the parse tree
+	 */
+	void enterStructFieldValue(BeguageParser.StructFieldValueContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code structFieldValue}
+	 * labeled alternative in {@link BeguageParser#expression2}.
+	 * @param ctx the parse tree
+	 */
+	void exitStructFieldValue(BeguageParser.StructFieldValueContext ctx);
 	/**
 	 * Enter a parse tree produced by the {@code call}
 	 * labeled alternative in {@link BeguageParser#expression2}.
