@@ -43,11 +43,12 @@ public class LLVMActions extends BeguageBaseListener {
     public void exitDeclareStruct(BeguageParser.DeclareStructContext ctx) {
         String structureName = ctx.ID(0).getText();
         String structureInstanceName = ctx.ID(1).getText();
-//        if (!structures.containsKey(structureName)) {
-//            error(ctx.getStart().getLine(), "structure not defined");
-//        }
+        if (!structures.containsKey(structureName)) {
+            error(ctx.getStart().getLine(), "structure not defined");
+        }
+        structureInstanceName = getRangedName(structureInstanceName);
         Struct struct = structures.get(structureName);
-        structureInstances.put(getRangedName(structureInstanceName), struct);
+        structureInstances.put(structureInstanceName, struct);
         LLVMGenerator.declareStructInstance(struct, structureInstanceName);
     }
 
@@ -56,9 +57,13 @@ public class LLVMActions extends BeguageBaseListener {
         String instanceName = ctx.ID(0).getText();
         String field = ctx.ID(1).getText();
         if (!structureInstances.containsKey("@" + instanceName)) {
+            instanceName = "%" + instanceName;
+        } else if (!structureInstances.containsKey("%" + instanceName)) {
+            instanceName = "@" + instanceName;
+        } else {
             error(ctx.getStart().getLine(), "structure instance not declared");
         }
-        Struct struct = structureInstances.get("@" + instanceName);
+        Struct struct = structureInstances.get(instanceName);
         String fieldNumber = struct.fields.get(field).number;
         VarType fieldType = struct.fields.get(field).type;
         if (!struct.fields.containsKey(field)) {
@@ -75,10 +80,15 @@ public class LLVMActions extends BeguageBaseListener {
     public void exitStructFieldValue(BeguageParser.StructFieldValueContext ctx) {
         String instanceName = ctx.ID(0).getText();
         String field = ctx.ID(1).getText();
-        if (!structureInstances.containsKey("@" + instanceName)) {
+        if (structureInstances.containsKey("%" + instanceName)) {
+            instanceName = "%" + instanceName;
+        } else if (structureInstances.containsKey("@" + instanceName)) {
+            instanceName = "@" + instanceName;
+        } else {
             error(ctx.getStart().getLine(), "structure instance not declared");
+
         }
-        Struct struct = structureInstances.get("@" + instanceName);
+        Struct struct = structureInstances.get(instanceName);
         String fieldNumber = struct.fields.get(field).number;
         VarType fieldType = struct.fields.get(field).type;
         if (!struct.fields.containsKey(field)) {
@@ -321,9 +331,13 @@ public class LLVMActions extends BeguageBaseListener {
             newVariableValue = stack.pop();
         }
         if (isGlobal) {
+//            newVariableValue.nameOrValue = "@" + newVariableValue.nameOrValue;
             globalNames.put("@" + ID, newVariableValue);
+            ID = "@" + ID;
         } else {
+//            newVariableValue.nameOrValue = "%" + newVariableValue.nameOrValue;
             localNames.put("%" + ID, newVariableValue);
+            ID = "%" + ID;
         }
 
         if (newVariableValue.type == VarType.INT) {

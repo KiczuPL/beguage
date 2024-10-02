@@ -7,6 +7,6 @@ if [[ $? -eq 0 ]]; then
   ./program
   fi
 fi
-rm program.ll
+#rm program.ll
 rm program.bc
 rm program.s

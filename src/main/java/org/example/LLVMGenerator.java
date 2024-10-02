@@ -177,7 +177,7 @@ class LLVMGenerator {
 
     public static void assign_f32(String id, String value) {
         String v = LLVMUtils.floatStrToLLVM(value);
-        buffer += "store float " + v + ", float* " + id + "\n";
+        buffer += "store float " + v.replace("%","")  + ", float* " + id + "\n";
     }
 
     public static void declare_f64(String id, boolean global) {
@@ -190,7 +190,7 @@ class LLVMGenerator {
 
     public static void assign_f64(String id, String value) {
         String v = LLVMUtils.doubleStrToLLVM(value);
-        buffer += "store double " + v + ", double* " + id + "\n";
+        buffer += "store double " + v.replace("%","") + ", double* " + id + "\n";
     }
 
     public static void load(VariableOrValue v) {
@@ -384,19 +384,19 @@ class LLVMGenerator {
     }
 
     public static void loadStructField(String instanceName, String fieldNumber, Struct struct, VarType fieldType) {
-        buffer += "%" + reg + " = getelementptr %" + struct.name + ", %" + struct.name + "* %" + instanceName + ", i32 0, i32 " + fieldNumber + "\n";
+        buffer += "%" + reg + " = getelementptr %" + struct.name + ", %" + struct.name + "* " + instanceName + ", i32 0, i32 " + fieldNumber + "\n";
         reg++;
         buffer += "%" + reg + " = load " + fieldType.llvmType + ", " + fieldType.llvmType + "* %" + (reg - 1) + "\n";
         reg++;
     }
 
     public static void reassignStructField(String instanceName, String fieldNumber, VariableOrValue value, Struct struct, VarType fieldType) {
-        buffer += "%field" + instanceName + fieldNumber + reg + " = getelementptr %" + struct.name + ", %" + struct.name + "* %" + instanceName + ", i32 0, i32 " + fieldNumber + "\n";
-        buffer += "store " + fieldType.llvmType + " " + value.getNameOrValue() + ", " + fieldType.llvmType + "* %field" + instanceName + fieldNumber + reg + "\n";
+        buffer += "%field" + instanceName.substring(1) + fieldNumber + reg + " = getelementptr %" + struct.name + ", %" + struct.name + "* " + instanceName + ", i32 0, i32 " + fieldNumber + "\n";
+        buffer += "store " + fieldType.llvmType + " " + value.getNameOrValue() + ", " + fieldType.llvmType + "* %field" + instanceName.substring(1) + fieldNumber + reg + "\n";
     }
 
     public static void declareStructInstance(Struct struct, String varName) {
-        buffer += "%" + varName + " = alloca %" + struct.getName() + "\n";
+        buffer += "" + varName + " = alloca %" + struct.getName() + "\n";
     }
 
     public static void declareStruct(Struct struct) {
