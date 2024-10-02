@@ -15,6 +15,7 @@ Projekt tego języka został wykonany na potrzeby zaliczenia kursu 1DI2152 - Ję
 Przód kompilatora, obejmujący analizę leksykalną i składniową, został wykonany przy użyciu generatora analizatorów ANTLR. Z wynikowego drzewa składniowego (AST) została wygenerowana reprezentacja pośrednia (IR) zgodna ze specyfikacją LLVM. Optymalizacja reprezentacji pośredniej, a także generowanie kodu maszynowego jest realizowane przy użyciu narzędzi dostępnych w LLVM.
 
 Projekt został podzielony na dwa etapy, wykorzystując technologie ANTLR i LLVM.
+
 **Etap 1. Proste operacje na zmiennych (15 pkt)**
 Wymagania minimalne (10 pkt):
 - obsługa dwóch typów zmiennych: całkowite, rzeczywiste, **DONE**
@@ -22,7 +23,7 @@ Wymagania minimalne (10 pkt):
 - obsługa podstawowych operacji artmetycznych, **DONE**
 - wskazywanie błędów podczas analizy leksykalno-składniowej﻿. **DONE**
 
-**Rozszerzenia:**
+Rozszerzenia:
 - obsługa zmiennych tablicowych (3 pkt),
 - obsługa macierzy liczb (5 pkt),
 - obsługa wartości logicznych (2pkt za AND, OR, XOR, NEG, 5p. jeżeli zaimplementowane zostanie short-circuit boolean evaluation),
@@ -35,7 +36,7 @@ Wymagania minimalne (10 pkt):
 - możliwość tworzenia funkcji, **DONE**
 - obsługa zasięgu zmiennych (lokalne i globalne) **DONE**
 
-**Rozszerzenia:**
+Rozszerzenia:
 - obsługa struktur (5 pkt)﻿,
 - obsługa klas (5 pkt),
 - dynamiczne typowanie (wartości w pudełkach) (5 pkt),
@@ -69,23 +70,125 @@ Operacja wypisania zmiennej odbywa przy pomocy instrukcji: `show x`
 - **MNOŻENIE** - odbywa się przy pomocy znaku gwiazdki (*) `x * y`
 - **DZIELENIE** - odbywa się przy pomocy znaku ukośnika (/) `x / y`
 
-### Przykładowy kod:
+**Przykładowy kod:**
 ```
-let x be 10
-let y be f2.5
-provide z as i32
+let x be 10.0
+let y be 2.5
+provide z as f64
 show x + y
 show x - y
 show x * y
 show x / y
-show x + y * x / z 
+show x + y * x / z
+
 ```
-### Wynik powyższego kodu:
-oczekawianie na input _ <-- 5
+**Wynik powyższego kodu:**
 ```
-12.5
-7.5
-25.0
-4.0
-15.0
+5.5 <--- KEYBOARD INPUT
+12.500000
+7.500000
+25.000000
+4.000000
+14.545454
 ```
+
+## 3. Sterowanie przepływem programu
+
+### Instrukcja warunkowa:
+Instrukcja warunkowa jest wywoływana za pomocą wyrażenia
+```
+if(<conditon>)
+  <blockIF>
+end
+```
+- `if` rozpoczęcie instrukcji warunkowej,
+- `(condition)` warunek (FALSE lub TRUE), mogą tu się znajdować następujące instrukcje:
+  - `==` znak równości,
+  - `!=` znak nierówności,
+  - `>` znak większości,
+  - `<` znak mniejszości,
+  - `>=` znak większy lub równy,
+  - `<=` znak mniejszy lub równy,
+- `end` zakończenie instrukcji warunkowej.
+
+**Przykładowy kod:**
+```
+provide x as i32
+let y be 2
+
+if(x == 5)
+    show y
+end
+
+```
+**Wynik powyższego kodu:**
+```
+5 <--- KEYBOARD INPUT
+2
+```
+
+### Pętla:
+Możliwość wykonywania pętli w programie odbywa się za pomocą instrukcji:
+```
+go(<condition>)
+  <blockREPEAT>
+end
+```
+- `go` rozpoczęcie pętli,
+- `(condition)` warunek (FALSE lub TRUE), mogą tu się znajdować następujące instrukcje:
+  - `==` znak równości,
+  - `!=` znak nierówności,
+  - `>` znak większości,
+  - `<` znak mniejszości,
+  - `>=` znak większy lub równy,
+  - `<=` znak mniejszy lub równy,
+- `end` zakończenie pętli.
+
+**Przykładowy kod:**
+```
+let x be 0
+go(x < 5)
+    x be x + 1
+    show x
+end
+
+```
+**Wynik powyższego kodu:**
+```
+1
+2
+3
+4
+5
+6
+```
+
+### Funkcje:
+Możliwość tworzenia funkcji odbywa się przy pomocy instrukcji:
+```
+fn(<parameters>) -> i32/f32/f64
+  <Fblock>
+end
+```
+- `fn` rozpoczęcie funkcji,
+- `<parameters>` parametry, które moża wprowadzić do funkcji,
+- `<Fblock>` blok funkcji,
+- `end` zakończenie funkcji.
+
+**Przykładowy kod:**
+```
+fn sq (f32 x, f32 y) -> i32
+    return ((x * y) * y)
+end
+
+show sq(2f, 3.5f)
+
+```
+**Wynik powyższego kodu:**
+```
+24,5
+```
+
+### Obsługiwane zasięgi zmiennych - z podziałem na zmienne lokalne i globalne:
+- `global` zmienna globalna,
+- `local` zmienna lokalna.
